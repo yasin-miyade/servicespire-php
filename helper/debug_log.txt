@@ -1,0 +1,29 @@
+2025-03-27 21:24:33 - {
+    "time": "2025-03-27 21:24:33",
+    "method": "POST",
+    "GET": [],
+    "POST": {
+        "cancel_help_post_id": "44"
+    },
+    "headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "152",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/134.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Chromium\";v=\"134\", \"Not:A-Brand\";v=\"24\", \"Google Chrome\";v=\"134\"",
+        "Content-Type": "multipart\/form-data; boundary=----WebKitFormBoundary4Qg4g6HNUUYgbBen",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/project\/servicespire\/helper\/index.php?page=dashboard",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cookie": "PHPSESSID=u0oadp8jjca2bgikeglqpejkmd"
+    }
+}
+
