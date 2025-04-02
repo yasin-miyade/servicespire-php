@@ -148,35 +148,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </form>
                 
-                <!-- Social Login Options -->
-                <div class="mt-6">
-                    <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 grid grid-cols-3 gap-3">
-                        <div>
-                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-all duration-300">
-                                <i class="fab fa-google"></i>
-                            </a>
-                        </div>
-                        <div>
-                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-all duration-300">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                        </div>
-                        <div>
-                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-all duration-300">
-                                <i class="fab fa-apple"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 
                 <!-- Register Now Option -->
                 <div class="text-center mt-6 border-t border-gray-200 pt-6">
@@ -189,10 +160,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </p>
                 </div>
             </div>
-        </div>
-        
-        <div class="mt-6 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 Your Company. All rights reserved.</p>
         </div>
     </div>
     

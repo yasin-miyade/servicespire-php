@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once('before_index.php'); // Include the buffer handler
+// session_start();
 require_once("../lib/function.php");
 
 // Check if the user is logged in
@@ -104,17 +105,49 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         body.navigating {
             overflow: hidden;
         }
+        
+        /* Expired post notification styles */
+        .expired-post-indicator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.5rem 1rem;
+            background-color: rgba(239, 68, 68, 0.85);
+            color: white;
+            font-weight: bold;
+            border-bottom-left-radius: 0.5rem;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        .expired-post {
+            border-left-color: #ef4444 !important;
+        }
     </style>
     
     <!-- Pre-load the sidebar state before any DOM rendering -->
     <script>
+        // Add tab coordination code at the start
+        const tabId = Date.now().toString();
+        localStorage.setItem(`tab_${tabId}`, 'active');
+        
+        // Handle tab lifecycle
+        window.addEventListener('beforeunload', () => {
+            localStorage.removeItem(`tab_${tabId}`);
+        });
+        
         // Apply sidebar state immediately
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
         if (sidebarCollapsed) {
             document.documentElement.classList.add('sidebar-collapsed');
         }
         
-        // Set up page transition variable to prevent unwanted behavior
         window.isNavigating = false;
     </script>
 </head>
@@ -182,10 +215,29 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                     <!-- Work Posts Section -->
                     <?php if ($work_posts->num_rows > 0) : ?>
                     <div class="grid grid-cols-1 gap-8">
-                        <?php while ($post = $work_posts->fetch_assoc()) : ?>
+                        <?php while ($post = $work_posts->fetch_assoc()) : 
+                            // Check if post deadline has expired
+                            $is_expired = false;
+                            if(!empty($post['deadline'])) {
+                                $deadline_date = strtotime($post['deadline']);
+                                $current_date = strtotime(date('Y-m-d'));
+                                $is_expired = ($current_date > $deadline_date);
+                            }
+                            
+                            // Add 'expired-post' class if post is expired
+                            $post_class = $is_expired ? 'expired-post' : '';
+                        ?>
                         <!-- Post Container with Hover Effect -->
                         <div
-                            class="relative bg-white shadow-lg border-l-8 border-indigo-500 rounded-xl overflow-hidden transform hover:-translate-y-2 hover:shadow-xl transition-all ">
+                            class="relative bg-white shadow-lg border-l-8 border-indigo-500 rounded-xl overflow-hidden transform hover:-translate-y-2 hover:shadow-xl transition-all <?php echo $post_class; ?>">
+                            
+                            <?php if($is_expired): ?>
+                            <!-- Expired Post Notification -->
+                            <div class="expired-post-indicator">
+                                <i class="ph ph-warning"></i> DEADLINE EXPIRED
+                            </div>
+                            <?php endif; ?>
+                            
                             <div class="p-8">
                                 <!-- Post Title -->
                                 <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center gap-2">
@@ -211,8 +263,14 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                         <strong>Work:</strong> <?php echo htmlspecialchars($post['work']); ?>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-calendar text-indigo-600"></i>
-                                        <strong>Deadline:</strong> <?php echo htmlspecialchars($post['deadline']); ?>
+                                        <i class="ph ph-calendar <?php echo $is_expired ? 'text-red-600' : 'text-indigo-600'; ?>"></i>
+                                        <strong>Deadline:</strong> 
+                                        <span class="<?php echo $is_expired ? 'text-red-600 font-semibold' : ''; ?>">
+                                            <?php echo htmlspecialchars($post['deadline']); ?>
+                                            <?php if($is_expired): ?>
+                                            <span class="text-red-600 ml-2">(Expired)</span>
+                                            <?php endif; ?>
+                                        </span>
                                     </div>
                                     <div class="flex items-center gap-3">
                                         <i class="ph ph-currency-circle-dollar text-indigo-600"></i>
@@ -249,13 +307,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                             class="btn bg-indigo-600 text-white font-medium py-2 px-5 rounded-lg hover:bg-indigo-700 transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
                                             <i class="ph ph-pencil-simple"></i> Edit
                                         </a>
-                                        <form method="POST" onsubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.');">
-                                            <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
-                                            <button type="submit"
-                                                class="btn bg-red-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-red-700 transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
-                                                <i class="ph ph-trash"></i> Delete
-                                            </button>
-                                        </form>
+                                        <button type="button" 
+                                            data-post-id="<?php echo $post['id']; ?>" 
+                                            class="delete-btn btn bg-red-500 text-white font-medium py-2 px-5 rounded-lg hover:bg-red-700 transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
+                                            <i class="ph ph-trash"></i> Delete
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -265,6 +321,33 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                     <?php else : ?>
                     <p class="text-center text-gray-600 text-lg">No work posts available.</p>
                     <?php endif; ?>
+                    
+                    <!-- Delete Confirmation Modal -->
+                    <div id="deleteModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+                        <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
+                        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+                            <div class="modal-content py-6 px-8">
+                                <div class="flex items-center justify-center mb-6">
+                                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100">
+                                        <i class="ph ph-warning text-red-600 text-3xl"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Confirm Deletion</h3>
+                                <p class="text-center text-gray-600 mb-8">Are you sure you want to delete this post? This action cannot be undone.</p>
+                                <div class="flex justify-center gap-4">
+                                    <button id="cancelDelete" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-all">
+                                        Cancel
+                                    </button>
+                                    <form id="confirmDeleteForm" method="POST">
+                                        <input type="hidden" id="modalDeleteId" name="delete_id" value="">
+                                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
+                                            Yes, Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             <?php 
             } else {
@@ -289,6 +372,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         setTimeout(function() {
             document.body.classList.add('transitions-ready');
         }, 100);
+        
+        // Setup delete confirmation modal
+        setupDeleteModal();
     });
     
     // Set up navigation links to maintain sidebar state
@@ -300,20 +386,12 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                 const originalHref = link.getAttribute('href');
                 
                 link.addEventListener('click', function(e) {
-                    // Prevent the default action
                     e.preventDefault();
-                    
-                    // Avoid multiple clicks
                     if (window.isNavigating) return;
-                    window.isNavigating = true;
                     
-                    // Add a navigating class to the body to prevent scrolling during transition
-                    document.body.classList.add('navigating');
-                    
-                    // Navigate smoothly after a tiny delay to allow CSS transitions
-                    setTimeout(function() {
-                        window.location.href = originalHref;
-                    }, 10);
+                    // Clear any existing refresh timers
+                    localStorage.setItem('lastNavigationTime', Date.now().toString());
+                    window.location.href = originalHref;
                 });
             }
         });
@@ -362,12 +440,64 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
     // Track page visibility to help with navigation transitions
     document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'hidden') {
-            // Page is being navigated away from
-            window.isNavigating = true;
+        if (document.visibilityState === 'visible') {
+            // Mark this tab as active
+            localStorage.setItem(`tab_${tabId}`, 'active');
+            window.isNavigating = false;
+        } else if (document.visibilityState === 'hidden') {
+            // Remove active status when tab is hidden
+            localStorage.removeItem(`tab_${tabId}`);
         }
     });
-    </script>
-</body>
 
+    function setupDeleteModal() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteModal = document.getElementById('deleteModal');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const modalDeleteId = document.getElementById('modalDeleteId');
+        const modalOverlay = document.querySelector('.modal-overlay');
+        const modalContainer = document.querySelector('.modal-container');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const postId = this.getAttribute('data-post-id');
+                modalDeleteId.value = postId;
+                deleteModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                
+                // Add animation class for modal appearance
+                setTimeout(() => {
+                    modalContainer.classList.add('scale-100', 'opacity-100');
+                    modalContainer.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            });
+        });
+        
+        function closeModal() {
+            // Animate modal closing
+            modalContainer.classList.remove('scale-100', 'opacity-100');
+            modalContainer.classList.add('scale-95', 'opacity-0');
+            
+            // Hide modal after animation completes
+            setTimeout(() => {
+                deleteModal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+            }, 300);
+        }
+        
+        cancelDelete.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+    }
+    </script>
+    
+    <style>
+    /* Modal animations are handled with Tailwind classes in the modal markup */
+    .scale-100 {
+        transform: scale(1);
+    }
+    .opacity-100 {
+        opacity: 1;
+    }
+    </style>
+</body>
 </html>

@@ -10,12 +10,19 @@ $db = new db_functions();
 $conn = $db->connect();
 $user_email = $_SESSION['email'];
 
-// Get pending work posts - modified to ensure assigned_helper_email is not empty
+// Get pending work posts - modified to ensure assigned_helper_email is not empty and include verification_code
 $query = "SELECT * FROM work_posts WHERE email = ? AND status = 'pending' AND assigned_helper_email IS NOT NULL ORDER BY created_at DESC";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $user_email);
 $stmt->execute();
 $result = $stmt->get_result();
+
+// Check if the verification_code column exists
+$has_verification = false;
+$column_check = $conn->query("SHOW COLUMNS FROM `work_posts` LIKE 'verification_code'");
+if ($column_check->num_rows > 0) {
+    $has_verification = true;
+}
 
 // Get stats
 $pending_count = $result->num_rows;
@@ -94,6 +101,10 @@ $completed_count = $completed_result['count'];
                 $helper_stmt->execute();
                 $helper_info = $helper_stmt->get_result()->fetch_assoc();
             }
+            
+            // Check if this post has a verification code AND it's still valid (not previously canceled/reassigned)
+            // Only consider verification code valid if it's not empty and the post status is still "pending"
+            $has_code = $has_verification && !empty($row['verification_code']) && $row['status'] == 'pending';
         ?>
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300" id="job-card-<?php echo $row['id']; ?>">
             <!-- Job header with improved status indication -->
@@ -195,6 +206,16 @@ $completed_count = $completed_result['count'];
                         </a>
                         <?php endif; ?>
                         
+                        <?php if ($has_code): ?>
+                        <button onclick="showVerificationCode(<?php echo $row['id']; ?>, '<?php echo $row['verification_code']; ?>')" class="btn inline-flex items-center px-3 py-2 border border-green-300 shadow-sm text-xs font-medium rounded-md text-green-700 bg-green-50 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                            <i class="ph ph-key mr-1.5"></i> View Code
+                        </button>
+                        <?php else: ?>
+                        <button onclick="generateVerificationCode(<?php echo $row['id']; ?>)" id="generate-code-btn-<?php echo $row['id']; ?>" class="btn inline-flex items-center px-3 py-2 border border-blue-300 shadow-sm text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                            <i class="ph ph-key-return mr-1.5"></i> Generate Code
+                        </button>
+                        <?php endif; ?>
+                        
                         <button onclick="cancelWork(<?php echo $row['id']; ?>)" class="btn inline-flex items-center px-3 py-2 border border-red-200 shadow-sm text-xs font-medium rounded-md text-red-600 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                             <i class="ph ph-x-circle mr-1.5"></i> Cancel
                         </button>
@@ -278,6 +299,45 @@ $completed_count = $completed_result['count'];
     </div>
 </div>
 
+<!-- Verification Code Modal -->
+<div id="verificationModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        
+        <!-- Modal panel -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                        <i class="ph ph-key text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            Verification Code
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">
+                                Share this code with your helper when they've completed the job. They'll need it to mark the job as complete.
+                            </p>
+                            <div class="mt-4 flex justify-center">
+                                <div class="py-3 px-8 bg-gray-100 rounded-md">
+                                    <span id="verification-code" class="text-2xl font-mono font-bold tracking-wider text-gray-800 select-all"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" onclick="closeVerificationModal()" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Add JavaScript for cancel functionality -->
 <script>
     let currentPostId = null;
@@ -313,6 +373,20 @@ $completed_count = $completed_result['count'];
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
+                // If the job is re-posted rather than removed, reset the verification code display
+                const codeBtn = document.getElementById('generate-code-btn-' + postId);
+                if (codeBtn) {
+                    // Reset to "Generate Code" button style and behavior
+                    codeBtn.innerHTML = '<i class="ph ph-key-return mr-1.5"></i> Generate Code';
+                    codeBtn.classList.remove('bg-green-50', 'text-green-700', 'border-green-300', 'hover:bg-green-100');
+                    codeBtn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300', 'hover:bg-blue-100');
+                    
+                    // Reset onclick handler to generate new code
+                    codeBtn.onclick = function() {
+                        generateVerificationCode(postId);
+                    };
+                }
+                
                 // Remove the work card from the UI
                 document.getElementById('job-card-' + postId).remove();
                 
@@ -401,5 +475,72 @@ $completed_count = $completed_result['count'];
     function closeConfirmationModal() {
         document.getElementById('confirmationModal').classList.add('hidden');
         currentPostId = null;
+    }
+    
+    // Function to show verification code
+    function showVerificationCode(postId, code) {
+        // Set the verification code in the modal
+        document.getElementById('verification-code').textContent = code;
+        
+        // Show the modal
+        document.getElementById('verificationModal').classList.remove('hidden');
+    }
+    
+    // Function to close verification modal
+    function closeVerificationModal() {
+        document.getElementById('verificationModal').classList.add('hidden');
+    }
+    
+    // Function to generate verification code
+    function generateVerificationCode(postId) {
+        const button = document.getElementById('generate-code-btn-' + postId);
+        const originalHTML = button.innerHTML;
+        
+        // Show loading state
+        button.disabled = true;
+        button.innerHTML = '<i class="ph ph-spinner ph-spin mr-1.5"></i> Generating...';
+        
+        // Send AJAX request to generate code
+        fetch('../ajax/user_generate_code.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'post_id=' + postId
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Show verification code in modal
+                if (data.code) {
+                    showVerificationCode(postId, data.code);
+                    
+                    // Replace the button with a "View Code" button
+                    button.innerHTML = '<i class="ph ph-key mr-1.5"></i> View Code';
+                    button.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-300', 'hover:bg-blue-100');
+                    button.classList.add('bg-green-50', 'text-green-700', 'border-green-300', 'hover:bg-green-100');
+                    
+                    // Update onclick handler
+                    button.onclick = function() {
+                        showVerificationCode(postId, data.code);
+                    };
+                }
+            } else {
+                // Restore button and show error
+                button.disabled = false;
+                button.innerHTML = originalHTML;
+                
+                // Show error in modal
+                showResultModal('Error', data.message || 'Failed to generate verification code.', 'error');
+            }
+        })
+        .catch(error => {
+            // Restore button and show error
+            button.disabled = false;
+            button.innerHTML = originalHTML;
+            
+            console.error('Error:', error);
+            showResultModal('Error', 'An error occurred. Please try again.', 'error');
+        });
     }
 </script>

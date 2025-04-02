@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    // session_start();
+    session_start(); // Uncomment this to ensure session is always available
 }
 
 date_default_timezone_set('Asia/Kolkata');
@@ -169,6 +169,9 @@ class db_functions
                     status VARCHAR(20) DEFAULT 'open',
                     assigned_helper_email VARCHAR(255) NULL,
                     notification TEXT NULL,
+                    verification_code VARCHAR(6) NULL,
+                    completion_note TEXT NULL,
+                    completed_at DATETIME NULL,
                     deleted TINYINT DEFAULT 0,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -510,61 +513,15 @@ class db_functions
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    //admin dashboard working
-    public function getHelpers() {
-        $query = "SELECT * FROM helper_sign_up"; // Use the correct table name
-        $result = $this->con->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
 
-    public function getUsers() {
-        if (!$this->con) {
-            return []; // Return an empty array if DB connection fails
-        }
 
-        $query = "SELECT * FROM sign_up"; // Ensure table name is correct
-        $stmt = $this->con->prepare($query);
-        
-        if (!$stmt) {
-            error_log("DB Error: " . $this->con->error); // Log error for debugging
-            return [];
-        }
-        
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            $users = $result->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $users;
-        } else {
-            error_log("Query Execution Error: " . $stmt->error);
-            return [];
-        }
-    }
 
-    public function getUserById($id) {
-        if (!$this->con) {
-            return null; // Return null if DB connection fails
-        }
 
-        $stmt = $this->con->prepare("SELECT * FROM sign_up WHERE id = ?");
-        
-        if (!$stmt) {
-            error_log("DB Error: " . $this->con->error);
-            return null;
-        }
-        
-        $stmt->bind_param("i", $id);
-        if (!$stmt->execute()) {
-            error_log("Query Execution Error: " . $stmt->error);
-            return null;
-        }
-        
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-        $stmt->close();
-        
-        return $user ?: null; // Return null if no user is found
-    }
+
+
+    
+
+
 
     ///profile autofill of user
     public function get_user_by_id($user_id) {

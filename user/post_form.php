@@ -1,10 +1,12 @@
 <?php
-ob_start();
-// session_start(); // Ensure session is started
+// No whitespace or output before this line
+ob_start(); // Start output buffering at the very beginning
+// session_start(); // Make sure session is started
 
-require_once('../lib/function.php'); // Include database connection
+// Include required files
+require_once('../lib/function.php');
 
-// Ensure user is logged in
+// Check if user is logged in
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
@@ -16,7 +18,7 @@ $email = $_SESSION['email']; // Get logged-in user's email
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
     $name = trim($_POST['name']);
-    $email = trim($_POST['email']); // Ensure email is captured
+    $email = trim($_POST['email']);
     $mobile = trim($_POST['mobile']);
     $city = trim($_POST['city']);
     $work = trim($_POST['work']);
@@ -26,16 +28,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $from_location = isset($_POST['from_location']) ? trim($_POST['from_location']) : '';
     $to_location = isset($_POST['to_location']) ? trim($_POST['to_location']) : '';
 
-    // Insert data into database
+    // Store form data in session for later use after payment
+    $_SESSION['post_data'] = [
+        'name' => $name,
+        'email' => $email,
+        'mobile' => $mobile,
+        'city' => $city,
+        'work' => $work,
+        'deadline' => $deadline,
+        'reward' => $reward,
+        'message' => $message,
+        'from_location' => $from_location,
+        'to_location' => $to_location,
+    ];
+
+    // Redirect to payment page
+    header("Location: payment.php");
+    exit();
+}
+
+// If returning from payment_success.php with success flag
+if (isset($_SESSION['payment_success']) && $_SESSION['payment_success'] === true && isset($_SESSION['post_data'])) {
+    $postData = $_SESSION['post_data'];
     $db = new db_functions();
-    if ($db->insertWorkPost($name, $email, $mobile, $city, $work, $deadline, $reward, $message, $from_location, $to_location)) {
+    
+    if ($db->insertWorkPost(
+        $postData['name'],
+        $postData['email'],
+        $postData['mobile'],
+        $postData['city'],
+        $postData['work'],
+        $postData['deadline'],
+        $postData['reward'],
+        $postData['message'],
+        $postData['from_location'],
+        $postData['to_location']
+    )) {
         $_SESSION['success'] = "Work posted successfully!";
-        // Delayed redirect handled by JavaScript
-        // We'll show a success page first, then redirect after 3 seconds
+        // Clear the session data
+        unset($_SESSION['post_data']);
+        unset($_SESSION['payment_success']);
+        // Success message will be displayed via JavaScript
     } else {
         $_SESSION['error'] = "Work post failed!";
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
+        // Clear the session data
+        unset($_SESSION['post_data']);
+        unset($_SESSION['payment_success']);
     }
 }
 
@@ -187,7 +225,7 @@ ob_end_flush();
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
                                     <i class="fas fa-rupee-sign"></i>
                                 </span>
-                                <input type="text" name="reward" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter reward amount" />
+                                <input type="number" name="reward" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter reward amount" />
                             </div>
                         </div>
 

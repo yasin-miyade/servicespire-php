@@ -59,6 +59,15 @@ if (!isset($_SESSION['user_id'])) {
     
     <!-- Pre-load the sidebar state before any DOM rendering -->
     <script>
+        // Add tab coordination code at the start
+        const tabId = Date.now().toString();
+        localStorage.setItem(`tab_${tabId}`, 'active');
+        
+        // Handle tab lifecycle
+        window.addEventListener('beforeunload', () => {
+            localStorage.removeItem(`tab_${tabId}`);
+        });
+        
         // Apply sidebar state immediately
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
         if (sidebarCollapsed) {
@@ -89,8 +98,8 @@ if (!isset($_SESSION['user_id'])) {
                         "completed" => ["Completed Tasks", "fa-check-circle"],
                         "notification" => ["Alerts & Reminders", "fa-bell"],
                         "profile" => ["Helper Profile", "fa-user"],
-                        "feedback" => ["User Feedback", "fa-comment"],
-                        "support" => ["Support Helpdesk", "fa-headset"],
+                        // "feedback" => ["User Feedback", "fa-comment"],
+                        // "support" => ["Support Helpdesk", "fa-headset"],
                     ];
                     
                     foreach ($menuItems as $key => $value) {
@@ -158,6 +167,9 @@ if (!isset($_SESSION['user_id'])) {
                     if (window.isNavigating) return;
                     window.isNavigating = true;
                     
+                    // Clear any existing refresh timers
+                    localStorage.setItem('lastNavigationTime', Date.now().toString());
+                    
                     // Add a navigating class to the body to prevent scrolling during transition
                     document.body.classList.add('navigating');
                     
@@ -211,8 +223,13 @@ if (!isset($_SESSION['user_id'])) {
 
     // Track page visibility to help with navigation transitions
     document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'hidden') {
-            // Page is being navigated away from
+        if (document.visibilityState === 'visible') {
+            // Mark this tab as active
+            localStorage.setItem(`tab_${tabId}`, 'active');
+            window.isNavigating = false;
+        } else if (document.visibilityState === 'hidden') {
+            // Remove active status when tab is hidden
+            localStorage.removeItem(`tab_${tabId}`);
             window.isNavigating = true;
         }
     });

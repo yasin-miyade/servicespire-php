@@ -35,6 +35,18 @@ $db = new db_functions();
 $conn = $db->connect();
 
 try {
+    // First, check if the verification_code column exists
+    $check_column_query = "SHOW COLUMNS FROM `work_posts` LIKE 'verification_code'";
+    $column_result = $conn->query($check_column_query);
+    
+    if ($column_result->num_rows === 0) {
+        // Column doesn't exist, try to add it
+        $alter_query = "ALTER TABLE `work_posts` ADD COLUMN `verification_code` VARCHAR(6) NULL DEFAULT NULL COMMENT 'Verification code for job completion'";
+        if (!$conn->query($alter_query)) {
+            throw new Exception("Unable to add verification_code column. Please run database migrations.");
+        }
+    }
+    
     // Check if the post exists and belongs to this user
     $check_query = "SELECT * FROM work_posts WHERE id = ? AND email = ? AND status = 'pending'";
     $check_stmt = $conn->prepare($check_query);
@@ -46,32 +58,29 @@ try {
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'error',
-            'message' => 'Post not found or not authorized to cancel'
+            'message' => 'Post not found or not in pending status'
         ]);
         exit();
     }
     
-    $post_data = $result->fetch_assoc();
-    $helper_email = $post_data['assigned_helper_email'];
+    // Generate a random 6-digit code
+    $verification_code = sprintf("%06d", mt_rand(0, 999999));
     
-    // Update the post to remove helper assignment and set status back to open
-    // Also clear the verification code when cancelling
-    $update_query = "UPDATE work_posts SET assigned_helper_email = NULL, status = 'open', verification_code = NULL WHERE id = ?";
+    // Save the verification code to the database
+    $update_query = "UPDATE work_posts SET verification_code = ? WHERE id = ?";
     $update_stmt = $conn->prepare($update_query);
-    $update_stmt->bind_param("i", $post_id);
+    $update_stmt->bind_param("si", $verification_code, $post_id);
     $success = $update_stmt->execute();
     
     if ($success) {
-        // If notification system exists, create a notification for the helper
-        // ...code for notifications if needed...
-        
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'success',
-            'message' => 'Work has been canceled successfully'
+            'message' => 'Verification code generated successfully',
+            'code' => $verification_code
         ]);
     } else {
-        throw new Exception("Failed to cancel work");
+        throw new Exception("Failed to save verification code");
     }
     
 } catch (Exception $e) {

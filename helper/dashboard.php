@@ -320,11 +320,11 @@ $show_debug = isset($_GET['debug']) && $_GET['debug'] == '1';
             <div class="bg-white p-4 rounded-lg shadow mb-6">
                 <div class="flex justify-between items-center">
                     <p class="text-gray-700">Found <?php echo count($work_posts); ?> available work posts</p>
-                    <?php if (!$show_debug): ?>
+                    <!-- <?php if (!$show_debug): ?>
                         <a href="?debug=1" class="text-xs text-blue-600 underline">Debug</a>
                     <?php else: ?>
                         <a href="?" class="text-xs text-blue-600 underline">Hide Debug</a>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
                 </div>
             </div>
 

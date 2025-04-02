@@ -1,0 +1,962 @@
+[29-Mar-2025 05:32:51 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:32:51
+[29-Mar-2025 05:32:51 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:02:51 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:02:51 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:02:51 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:32:55 Europe/Berlin] send_message.php accessed at 2025-03-29 05:32:55
+[29-Mar-2025 05:32:55 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"omkar@gmail.com","sender_type":"user"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:02:55 Asia/Kolkata] Raw values - post_id: 45, message: hi, recipient: omkar@gmail.com, sender_type: user
+[29-Mar-2025 10:02:55 Asia/Kolkata] Messages table already exists
+[29-Mar-2025 10:02:55 Asia/Kolkata] Inserting message: post_id=45, sender=yasin@gmail.com, recipient=omkar@gmail.com, message=hi, type=user
+[29-Mar-2025 10:02:55 Asia/Kolkata] Error in send_message.php: Unknown column 'sender_type' in 'field list'
+[29-Mar-2025 05:32:59 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:32:59
+[29-Mar-2025 05:32:59 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:02:59 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:02:59 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:02:59 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:33:08 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:33:08
+[29-Mar-2025 05:33:08 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:03:08 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:03:08 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:03:08 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:37:54 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:37:54
+[29-Mar-2025 05:37:54 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:07:54 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:07:54 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:07:54 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:37:59 Europe/Berlin] send_message.php accessed at 2025-03-29 05:37:59
+[29-Mar-2025 05:37:59 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"yasin@gmail.com","sender_type":"helper"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 05:37:59 Europe/Berlin] Origin: http://localhost
+[29-Mar-2025 10:07:59 Asia/Kolkata] Extracted values - post_id: 0, message: , recipient: , sender_type: user
+[29-Mar-2025 10:07:59 Asia/Kolkata] Error in send_message.php: Missing required fields: post_id, message, recipient
+[29-Mar-2025 05:38:08 Europe/Berlin] send_message.php accessed at 2025-03-29 05:38:08
+[29-Mar-2025 05:38:08 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"yasin@gmail.com","sender_type":"helper"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 05:38:08 Europe/Berlin] Origin: http://localhost
+[29-Mar-2025 10:08:08 Asia/Kolkata] Extracted values - post_id: 0, message: , recipient: , sender_type: user
+[29-Mar-2025 10:08:08 Asia/Kolkata] Error in send_message.php: Missing required fields: post_id, message, recipient
+[29-Mar-2025 05:38:19 Europe/Berlin] send_message.php accessed at 2025-03-29 05:38:19
+[29-Mar-2025 05:38:19 Europe/Berlin] Send message request: {"post_id":"45","message":"d","recipient":"yasin@gmail.com","sender_type":"helper"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 05:38:19 Europe/Berlin] Origin: http://localhost
+[29-Mar-2025 10:08:19 Asia/Kolkata] Extracted values - post_id: 0, message: , recipient: , sender_type: user
+[29-Mar-2025 10:08:19 Asia/Kolkata] Error in send_message.php: Missing required fields: post_id, message, recipient
+[29-Mar-2025 05:38:39 Europe/Berlin] send_message.php accessed at 2025-03-29 05:38:39
+[29-Mar-2025 05:38:39 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"omkar@gmail.com","sender_type":"user"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 05:38:39 Europe/Berlin] Origin: http://localhost
+[29-Mar-2025 10:08:39 Asia/Kolkata] Extracted values - post_id: 0, message: , recipient: , sender_type: user
+[29-Mar-2025 10:08:39 Asia/Kolkata] Error in send_message.php: Missing required fields: post_id, message, recipient
+[29-Mar-2025 05:38:46 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:38:46
+[29-Mar-2025 05:38:46 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:08:46 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:08:46 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:08:46 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:42:56 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:42:56
+[29-Mar-2025 05:42:56 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:12:56 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:12:56 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:12:56 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:43:00 Europe/Berlin] send_message.php accessed at 2025-03-29 05:43:00
+[29-Mar-2025 05:43:00 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 05:43:00 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:43:00 Europe/Berlin] REQUEST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 05:43:00 Europe/Berlin] Raw input: post_id=45&message=hi&recipient=yasin%40gmail.com&sender_type=helper
+[29-Mar-2025 05:43:00 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"yasin@gmail.com","sender_type":"helper"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 05:43:00 Europe/Berlin] Origin: http://localhost
+[29-Mar-2025 10:13:00 Asia/Kolkata] Data source: POST data
+[29-Mar-2025 10:13:00 Asia/Kolkata] Final values - post_id: 45, message: hi, recipient: yasin@gmail.com, sender_type: helper
+[29-Mar-2025 10:13:00 Asia/Kolkata] Messages table already exists
+[29-Mar-2025 10:13:00 Asia/Kolkata] Inserting message: post_id=45, sender=omkar@gmail.com, recipient=yasin@gmail.com, message=hi, type=helper
+[29-Mar-2025 10:13:00 Asia/Kolkata] Error in send_message.php: Unknown column 'sender_type' in 'field list'
+[29-Mar-2025 05:43:15 Europe/Berlin] send_message.php accessed at 2025-03-29 05:43:15
+[29-Mar-2025 05:43:15 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => omkar@gmail.com
+    [sender_type] => user
+)
+
+[29-Mar-2025 05:43:15 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:43:15 Europe/Berlin] REQUEST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => omkar@gmail.com
+    [sender_type] => user
+)
+
+[29-Mar-2025 05:43:15 Europe/Berlin] Raw input: post_id=45&message=hi&recipient=omkar%40gmail.com&sender_type=user
+[29-Mar-2025 05:43:15 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"omkar@gmail.com","sender_type":"user"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 05:43:15 Europe/Berlin] Origin: http://localhost
+[29-Mar-2025 10:13:15 Asia/Kolkata] Data source: POST data
+[29-Mar-2025 10:13:15 Asia/Kolkata] Final values - post_id: 45, message: hi, recipient: omkar@gmail.com, sender_type: user
+[29-Mar-2025 10:13:15 Asia/Kolkata] Messages table already exists
+[29-Mar-2025 10:13:15 Asia/Kolkata] Inserting message: post_id=45, sender=yasin@gmail.com, recipient=omkar@gmail.com, message=hi, type=user
+[29-Mar-2025 10:13:15 Asia/Kolkata] Error in send_message.php: Unknown column 'sender_type' in 'field list'
+[29-Mar-2025 05:43:24 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:43:24
+[29-Mar-2025 05:43:24 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:13:24 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:13:24 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:13:24 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:46:21 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:46:21
+[29-Mar-2025 05:46:21 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:16:21 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:16:21 Asia/Kolkata] Found 4 messages
+[29-Mar-2025 10:16:21 Asia/Kolkata] Marked 0 messages as read
+[29-Mar-2025 05:46:29 Europe/Berlin] send_message.php accessed at 2025-03-29 05:46:29
+[29-Mar-2025 05:46:29 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 05:46:29 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:46:29 Europe/Berlin] REQUEST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 05:46:29 Europe/Berlin] Raw input: post_id=45&message=hi&recipient=yasin%40gmail.com&sender_type=helper
+[29-Mar-2025 05:46:29 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"yasin@gmail.com","sender_type":"helper"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:16:29 Asia/Kolkata] Data source: POST data
+[29-Mar-2025 10:16:29 Asia/Kolkata] Final values - post_id: 45, message: hi, recipient: yasin@gmail.com, sender_type: helper
+[29-Mar-2025 10:16:29 Asia/Kolkata] Inserting message: post_id=45, sender=omkar@gmail.com, recipient=yasin@gmail.com, message=hi, type=helper
+[29-Mar-2025 10:16:29 Asia/Kolkata] Message saved successfully with ID: 22
+[29-Mar-2025 05:46:38 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:46:38
+[29-Mar-2025 05:46:38 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:16:38 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:16:38 Asia/Kolkata] Found 5 messages
+[29-Mar-2025 10:16:38 Asia/Kolkata] Marked 1 messages as read
+[29-Mar-2025 05:46:42 Europe/Berlin] send_message.php accessed at 2025-03-29 05:46:42
+[29-Mar-2025 05:46:42 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => omkar@gmail.com
+    [sender_type] => user
+)
+
+[29-Mar-2025 05:46:42 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:46:42 Europe/Berlin] REQUEST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => omkar@gmail.com
+    [sender_type] => user
+)
+
+[29-Mar-2025 05:46:42 Europe/Berlin] Raw input: post_id=45&message=hi&recipient=omkar%40gmail.com&sender_type=user
+[29-Mar-2025 05:46:42 Europe/Berlin] Send message request: {"post_id":"45","message":"hi","recipient":"omkar@gmail.com","sender_type":"user"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:16:42 Asia/Kolkata] Data source: POST data
+[29-Mar-2025 10:16:42 Asia/Kolkata] Final values - post_id: 45, message: hi, recipient: omkar@gmail.com, sender_type: user
+[29-Mar-2025 10:16:42 Asia/Kolkata] Inserting message: post_id=45, sender=yasin@gmail.com, recipient=omkar@gmail.com, message=hi, type=user
+[29-Mar-2025 10:16:42 Asia/Kolkata] Message saved successfully with ID: 23
+[29-Mar-2025 05:50:06 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:50:06
+[29-Mar-2025 05:50:06 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:20:06 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:20:06 Asia/Kolkata] Found 6 messages
+[29-Mar-2025 05:50:09 Europe/Berlin] send_message.php accessed at 2025-03-29 05:50:09
+[29-Mar-2025 05:50:09 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => omkar@gmail.com
+    [sender_type] => user
+)
+
+[29-Mar-2025 05:50:09 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:50:09 Europe/Berlin] Session data in send_message.php: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:20:09 Asia/Kolkata] Inserting message from yasin@gmail.com to omkar@gmail.com (type: user)
+[29-Mar-2025 10:20:09 Asia/Kolkata] Message #24 saved successfully
+[29-Mar-2025 05:50:14 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:50:14
+[29-Mar-2025 05:50:14 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:20:14 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:20:14 Asia/Kolkata] Found 7 messages
+[29-Mar-2025 10:20:14 Asia/Kolkata] Marked 2 messages as read
+[29-Mar-2025 05:50:26 Europe/Berlin] send_message.php accessed at 2025-03-29 05:50:26
+[29-Mar-2025 05:50:26 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hi
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 05:50:26 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:50:26 Europe/Berlin] Session data in send_message.php: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:20:26 Asia/Kolkata] Inserting message from omkar@gmail.com to yasin@gmail.com (type: helper)
+[29-Mar-2025 10:20:26 Asia/Kolkata] Message #25 saved successfully
+[29-Mar-2025 05:50:39 Europe/Berlin] send_message.php accessed at 2025-03-29 05:50:39
+[29-Mar-2025 05:50:39 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hello
+    [recipient] => omkar@gmail.com
+    [sender_type] => user
+)
+
+[29-Mar-2025 05:50:39 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:50:39 Europe/Berlin] Session data in send_message.php: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:20:40 Asia/Kolkata] Inserting message from yasin@gmail.com to omkar@gmail.com (type: user)
+[29-Mar-2025 10:20:40 Asia/Kolkata] Message #26 saved successfully
+[29-Mar-2025 05:50:51 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:50:51
+[29-Mar-2025 05:50:51 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:20:51 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:20:51 Asia/Kolkata] Found 9 messages
+[29-Mar-2025 10:20:51 Asia/Kolkata] Marked 1 messages as read
+[29-Mar-2025 05:56:30 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:30
+[29-Mar-2025 05:56:30 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","t":"1743224190841"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:30 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:30 Asia/Kolkata] Found 9 messages
+[29-Mar-2025 10:26:30 Asia/Kolkata] Marked 1 messages as read
+[29-Mar-2025 05:56:33 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:33
+[29-Mar-2025 05:56:33 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:33 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:33 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:36 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:36
+[29-Mar-2025 05:56:36 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:36 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:36 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:39 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:39
+[29-Mar-2025 05:56:39 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:39 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:39 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:41 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:41
+[29-Mar-2025 05:56:41 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","t":"1743224201540"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:41 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:41 Asia/Kolkata] Found 9 messages
+[29-Mar-2025 05:56:42 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:42
+[29-Mar-2025 05:56:42 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:42 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:42 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:44 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:44
+[29-Mar-2025 05:56:44 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:44 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:44 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:45 Europe/Berlin] send_message.php accessed at 2025-03-29 05:56:45
+[29-Mar-2025 05:56:45 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hieeo
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 05:56:45 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 05:56:45 Europe/Berlin] Session data in send_message.php: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:45 Asia/Kolkata] Inserting message from omkar@gmail.com to yasin@gmail.com (type: helper)
+[29-Mar-2025 10:26:45 Asia/Kolkata] Message #27 saved successfully
+[29-Mar-2025 05:56:45 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:45
+[29-Mar-2025 05:56:45 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:45 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:45 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 10:26:45 Asia/Kolkata] Marked 1 messages as read
+[29-Mar-2025 05:56:47 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:47
+[29-Mar-2025 05:56:47 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:47 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:47 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:48 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:48
+[29-Mar-2025 05:56:48 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:48 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:48 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:50 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:50
+[29-Mar-2025 05:56:50 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:50 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:50 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:51 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:51
+[29-Mar-2025 05:56:51 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:51 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:51 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:53 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:53
+[29-Mar-2025 05:56:53 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:53 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:53 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:54 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:54
+[29-Mar-2025 05:56:54 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:54 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:54 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:56 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:56
+[29-Mar-2025 05:56:56 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:56 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:56 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:57 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:57
+[29-Mar-2025 05:56:57 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:26:57 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:26:57 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:56:59 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:56:59
+[29-Mar-2025 05:56:59 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:26:59 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:26:59 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:00 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:00
+[29-Mar-2025 05:57:00 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:00 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:00 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:02 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:02
+[29-Mar-2025 05:57:02 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:02 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:02 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:03
+[29-Mar-2025 05:57:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:03 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:03 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:05 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:05
+[29-Mar-2025 05:57:05 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:05 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:05 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:06 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:06
+[29-Mar-2025 05:57:06 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:06 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:06 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:08 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:08
+[29-Mar-2025 05:57:08 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:08 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:08 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:09 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:09
+[29-Mar-2025 05:57:09 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:09 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:09 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:11 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:11
+[29-Mar-2025 05:57:11 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:11 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:11 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:14 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:14
+[29-Mar-2025 05:57:14 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:14 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:14 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:14 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:14
+[29-Mar-2025 05:57:14 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:14 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:14 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:15 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:15
+[29-Mar-2025 05:57:15 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:15 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:15 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:17 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:17
+[29-Mar-2025 05:57:17 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:17 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:17 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:18 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:18
+[29-Mar-2025 05:57:18 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:18 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:18 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:20 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:20
+[29-Mar-2025 05:57:20 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:20 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:20 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:21 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:21
+[29-Mar-2025 05:57:21 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:21 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:21 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:23 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:23
+[29-Mar-2025 05:57:23 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:23 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:23 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:24 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:24
+[29-Mar-2025 05:57:24 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:24 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:24 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:26 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:26
+[29-Mar-2025 05:57:26 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:26 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:26 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:27 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:27
+[29-Mar-2025 05:57:27 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:27 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:27 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:29 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:29
+[29-Mar-2025 05:57:29 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:29 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:29 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:30 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:30
+[29-Mar-2025 05:57:30 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:27:30 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:27:30 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:32 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:32
+[29-Mar-2025 05:57:32 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:32 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:32 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:35 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:35
+[29-Mar-2025 05:57:35 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:35 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:35 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:38 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:38
+[29-Mar-2025 05:57:38 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:38 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:38 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:41 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:41
+[29-Mar-2025 05:57:41 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:41 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:41 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:46 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:46
+[29-Mar-2025 05:57:46 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:46 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:46 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:47 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:47
+[29-Mar-2025 05:57:47 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:47 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:47 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:50 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:50
+[29-Mar-2025 05:57:50 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:50 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:50 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:53 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:53
+[29-Mar-2025 05:57:53 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:53 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:53 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:56 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:56
+[29-Mar-2025 05:57:56 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:56 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:56 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:57:59 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:57:59
+[29-Mar-2025 05:57:59 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:27:59 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:27:59 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:02 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:02
+[29-Mar-2025 05:58:02 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:02 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:02 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:05 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:05
+[29-Mar-2025 05:58:05 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:05 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:05 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:08 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:08
+[29-Mar-2025 05:58:08 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:08 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:08 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:11 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:11
+[29-Mar-2025 05:58:11 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:11 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:11 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:14 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:14
+[29-Mar-2025 05:58:14 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:14 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:14 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:17 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:17
+[29-Mar-2025 05:58:17 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:17 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:17 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:20 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:20
+[29-Mar-2025 05:58:20 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:20 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:20 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:23 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:23
+[29-Mar-2025 05:58:23 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:23 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:23 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:26 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:26
+[29-Mar-2025 05:58:26 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:26 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:26 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:29 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:29
+[29-Mar-2025 05:58:29 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:29 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:29 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:32 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:32
+[29-Mar-2025 05:58:32 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:32 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:32 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:35 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:35
+[29-Mar-2025 05:58:35 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:35 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:35 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:58:38 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:58:38
+[29-Mar-2025 05:58:38 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:28:38 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:28:38 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 05:59:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 05:59:03
+[29-Mar-2025 05:59:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:29:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:29:03 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 06:00:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:00:03
+[29-Mar-2025 06:00:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:30:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:30:03 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 06:01:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:01:03
+[29-Mar-2025 06:01:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:31:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:31:03 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 06:02:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:02:03 with GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}
+[29-Mar-2025 06:02:03 Europe/Berlin] Session data in fetch_messages.php: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:32:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:32:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:03:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:03:03
+[29-Mar-2025 06:03:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:33:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:33:03 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 06:04:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:04:03
+[29-Mar-2025 06:04:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:34:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:34:03 Asia/Kolkata] Found 0 messages
+[29-Mar-2025 06:05:02 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:02 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}
+[29-Mar-2025 06:05:02 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:02 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:02 Asia/Kolkata] Filtering messages after: 2025-03-29T04:56:45.798Z
+[29-Mar-2025 10:35:02 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:26:45
+[29-Mar-2025 10:35:02 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:02 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:02 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:02 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}
+[29-Mar-2025 06:05:02 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T04:56:45.798Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:02 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:02 Asia/Kolkata] Filtering messages after: 2025-03-29T04:56:45.798Z
+[29-Mar-2025 10:35:02 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:26:45
+[29-Mar-2025 10:35:02 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:02 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:10 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:10 - GET: {"post_id":"45","other_email":"omkar@gmail.com","t":"1743224710511"}
+[29-Mar-2025 06:05:10 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","t":"1743224710511"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:10 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:10 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) ORDER BY created_at ASC
+[29-Mar-2025 10:35:10 Asia/Kolkata] Found 10 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:13 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:13 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:13 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:13 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:13 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:13 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:13 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:13 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:18 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:18 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:18 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:18 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:18 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:18 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:18 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:18 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:19 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:19 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:19 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:19 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:19 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:19 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:19 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:19 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:22 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:22 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:22 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:22 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:22 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:22 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:22 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:22 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:25 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:25 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:25 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:25 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:25 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:25 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:25 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:25 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:28 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:28 - GET: {"post_id":"45","other_email":"yasin@gmail.com","t":"1743224728305"}
+[29-Mar-2025 06:05:28 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","t":"1743224728305"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:28 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:28 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) ORDER BY created_at ASC
+[29-Mar-2025 10:35:28 Asia/Kolkata] Found 10 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:28 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:28 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:28 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:28 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:28 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:28 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:28 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:28 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:31 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:31 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:31 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:31 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:31 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:31 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:31 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:31 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:31 Europe/Berlin] send_message.php accessed at 2025-03-29 06:05:31
+[29-Mar-2025 06:05:31 Europe/Berlin] POST data: Array
+(
+    [post_id] => 45
+    [message] => hy
+    [recipient] => yasin@gmail.com
+    [sender_type] => helper
+)
+
+[29-Mar-2025 06:05:31 Europe/Berlin] GET data: Array
+(
+)
+
+[29-Mar-2025 06:05:31 Europe/Berlin] Session data in send_message.php: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:31 Asia/Kolkata] Inserting message from omkar@gmail.com to yasin@gmail.com (type: helper)
+[29-Mar-2025 10:35:31 Asia/Kolkata] Message #28 saved successfully
+[29-Mar-2025 06:05:31 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:31 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:31 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:31 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:31 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:31 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:31 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:31 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 10:35:31 Asia/Kolkata] Marked 1 messages as read
+[29-Mar-2025 06:05:34 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:34 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:34 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:34 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:34 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:34 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:34 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:34 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:34 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:34 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:34 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:34 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:34 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:34 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:34 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:34 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:37 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:37 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:37 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:37 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:37 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:37 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:37 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:37 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:37 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:37 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:37 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:37 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:37 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:37 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:37 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:37 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:40 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:40 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:40 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:40 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:40 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:40 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:40 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:40 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:43 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:43 - GET: {"post_id":"45","other_email":"omkar@gmail.com","t":"1743224743680"}
+[29-Mar-2025 06:05:43 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","t":"1743224743680"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:43 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:43 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) ORDER BY created_at ASC
+[29-Mar-2025 10:35:43 Asia/Kolkata] Found 11 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:43 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:43 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:43 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:43 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:43 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:43 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:43 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:43 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:46 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:46 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:46 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:46 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:46 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:46 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:46 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:46 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:46 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:46 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:46 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:46 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:46 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:46 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:46 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:46 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:49 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:49 - GET: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}
+[29-Mar-2025 06:05:49 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"omkar@gmail.com","after":"2025-03-28 21:32:38"}, Session: {"user_id":19,"email":"yasin@gmail.com"}
+[29-Mar-2025 10:35:49 Asia/Kolkata] Current user: yasin@gmail.com, Type: user, Other email: omkar@gmail.com
+[29-Mar-2025 10:35:49 Asia/Kolkata] Filtering messages after: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:49 Asia/Kolkata] Formatted timestamp: 2025-03-28 21:32:38
+[29-Mar-2025 10:35:49 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:49 Asia/Kolkata] Found 0 messages for post_id=45 between yasin@gmail.com and omkar@gmail.com
+[29-Mar-2025 06:05:49 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:49 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:49 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:49 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:49 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:49 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:49 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:49 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:52 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:52 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:52 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:52 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:52 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:52 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:52 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:52 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:55 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:55 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:55 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:55 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:55 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:55 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:55 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:55 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:05:58 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:05:58 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:05:58 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:35:58 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:35:58 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:35:58 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:35:58 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:35:58 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:01 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:01 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:01 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:01 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:01 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:01 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:01 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:01 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:04 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:04 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:04 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:04 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:04 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:04 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:04 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:04 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:07 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:07 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:07 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:07 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:07 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:07 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:07 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:07 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:10 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:10 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:10 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:10 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:10 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:10 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:10 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:10 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:13 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:13 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:13 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:13 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:13 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:13 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:13 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:13 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:16 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:16 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:16 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:16 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:16 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:16 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:16 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:16 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:20 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:20 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:20 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:20 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:21 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:21 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:21 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:21 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:22 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:22 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:22 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:22 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:23 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:23 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:23 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:23 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:25 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:25 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:25 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:25 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:25 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:25 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:25 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:25 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:28 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:28 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:28 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:28 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:28 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:28 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:28 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:28 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:06:31 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:06:31 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:06:31 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:36:31 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:36:31 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:36:31 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:36:31 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:36:31 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:07:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:07:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:07:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:37:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:37:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:37:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:37:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:37:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:08:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:08:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:08:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:38:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:38:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:38:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:38:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:38:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:09:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:09:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:09:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:39:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:39:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:39:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:39:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:39:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:10:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:10:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:10:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:40:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:40:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:40:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:40:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:40:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:11:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:11:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:11:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:41:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:41:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:41:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:41:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:41:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:12:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:12:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:12:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:42:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:42:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:42:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:42:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:42:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:13:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:13:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:13:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 06:13:03 Europe/Berlin] PHP Fatal error:  Cannot redeclare db_functions::getTotalRequests() in D:\xamp\htdocs\project\servicespire\lib\function.php on line 688
+[29-Mar-2025 06:14:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:14:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:14:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 06:14:03 Europe/Berlin] PHP Fatal error:  Cannot redeclare db_functions::getTotalRequests() in D:\xamp\htdocs\project\servicespire\lib\function.php on line 688
+[29-Mar-2025 06:15:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:15:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:15:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:45:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:45:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:45:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:45:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:45:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:16:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:16:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:16:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:46:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:46:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:46:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:46:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:46:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
+[29-Mar-2025 06:17:03 Europe/Berlin] fetch_messages.php accessed at 2025-03-29 06:17:03 - GET: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}
+[29-Mar-2025 06:17:03 Europe/Berlin] Fetch messages request: {"post_id":"45","other_email":"yasin@gmail.com","after":"2025-03-29T05:05:31.660Z"}, Session: {"helper_id":7,"helper_email":"omkar@gmail.com","helper_first_name":"omkar","helper_last_name":"sutar","user_id":7,"user_name":"omkar sutar"}
+[29-Mar-2025 10:47:03 Asia/Kolkata] Current user: omkar@gmail.com, Type: helper, Other email: yasin@gmail.com
+[29-Mar-2025 10:47:03 Asia/Kolkata] Filtering messages after: 2025-03-29T05:05:31.660Z
+[29-Mar-2025 10:47:03 Asia/Kolkata] Formatted timestamp: 2025-03-29 10:35:31
+[29-Mar-2025 10:47:03 Asia/Kolkata] Query: SELECT * FROM messages WHERE post_id = ? AND 
+              ((sender_email = ? AND recipient_email = ?) OR 
+               (sender_email = ? AND recipient_email = ?)) AND created_at > ? ORDER BY created_at ASC
+[29-Mar-2025 10:47:03 Asia/Kolkata] Found 0 messages for post_id=45 between omkar@gmail.com and yasin@gmail.com
