@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +18,13 @@
             --secondary: #00C9FF;
             --dark: #1E1E2C;
             --light: #F9F9FF;
+            --primary-indigo: #4f46e5;
+            --primary-indigo-dark: #4338ca;
+            --primary-indigo-light: #818cf8;
+            --secondary-pink: #f43f5e;
+            --neutral-dark: #1f2937;
+            --neutral: #6b7280;
+            --neutral-light: #f3f4f6;
         }
         
         body {
@@ -35,7 +41,7 @@
         
         .gradient-text {
             background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
-            -webkit-background-clip: text;
+            -webkit-backdrop-clip: text;
             background-clip: text;
             color: transparent;
         }
@@ -177,25 +183,113 @@
             padding-top: 1rem;
             padding-bottom: 2rem;
         }
-    </style>
-
-<style>
-    @media (max-width: 500px) {
-        .mt-responsive {
-            margin-top: 6rem; /* Equivalent to Tailwind mt-24 */
+        
+        /* Header specific styles */
+        .nav-link {
+            position: relative;
+            color: var(--neutral-dark);
         }
-    }
-</style>
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--primary);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .gradient-btn {
+            background: linear-gradient(135deg, var(--primary-indigo), var(--primary-indigo-dark));
+            transition: all 0.3s ease;
+        }
+
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, var(--primary-indigo-dark), var(--primary-indigo));
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .header-glass {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        @media (max-width: 500px) {
+            .mt-responsive {
+                margin-top: 6rem;
+            }
+        }
+    </style>
 </head>
 
 <body class="antialiased">
-    <?php include 'header.php'; ?>
-    
+    <header id="header" class="fixed top-4 w-full max-w-6xl left-1/2 transform -translate-x-1/2 transition-all duration-300 z-50 bg-transparent mt-2 sm:mt-2 md:mt-2 lg:mt-2">
+        <nav class="px-6 py-4 rounded-xl">
+            <div class="flex justify-between items-center mx-auto max-w-screen-xl">
+                <!-- Logo -->
+                <a href="index.php" class="flex items-center">
+                    <h3 class="text-indigo-800 md:font-bold text-3xl mr-12">
+                        <img src="assets/images/logo1.jpg" alt="Logo" class="w-44">
+                    </h3>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex lg:items-center lg:space-x-8 text-lg">
+                    <a href="index.php" class="nav-link block py-2 px-3 transition-colors duration-200">Home</a>
+                    <a href="about.php" class="nav-link block py-2 px-3 transition-colors duration-200">About Us</a>
+                    <a href="contact_us.php" class="nav-link block py-2 px-3 transition-colors duration-200">Contact Us</a>
+                    <a href="services.php" class="nav-link block py-2 px-3 transition-colors duration-200">Services</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden lg:block">
+                    <a href="selectrole.php" class="text-white gradient-btn focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-6 py-3 focus:outline-none transition-all duration-200 transform hover:scale-105 shadow-md">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="hidden w-full mt-4 rounded-lg bg-white shadow-lg p-4 lg:hidden">
+                <ul class="flex flex-col space-y-4 text-center">
+                    <li><a href="index.php" class="nav-link block py-2 px-3">Home</a></li>
+                    <li><a href="about.php" class="nav-link block py-2 px-3">About Us</a></li>
+                    <li><a href="contact_us.php" class="nav-link block py-2 px-3">Contact Us</a></li>
+                    <li><a href="services.php" class="nav-link block py-2 px-3">Services</a></li>
+                    <li>
+                        <a href="selectrole.php" class="text-white gradient-btn block rounded-lg text-sm px-6 py-3 shadow-md">
+                            Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <!-- Hero Section -->
     <section class="hero-gradient hero-container">
         <div class="container mx-auto px-6">
-        <div class="flex flex-col lg:ml-10 lg:flex-row items-center mt-responsive">
-        <div class="w-full lg:w-1/2 lg:pr-10 mb-8 lg:mb-0">
+            <div class="flex flex-col lg:ml-10 lg:flex-row items-center mt-responsive">
+                <div class="w-full lg:w-1/2 lg:pr-10 mb-8 lg:mb-0">
                     <div class="mb-4">
                         <span class="text-purple-700 font-semibold text-lg tracking-wider uppercase">Community-Powered Services</span>
                     </div>
@@ -232,46 +326,44 @@
                 </p>
             </div>
             
-                <!-- For Users -->
-                <section class="py-20">
+            <!-- For Users -->
+            <section class="py-20">
+                <div class="flex flex-col md:flex-row justify-center items-center gap-10 px-10">
+                    <!-- User Card -->
+                    <div class="max-w-md w-full p-8 bg-white shadow-lg rounded-lg border border-gray-300 transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-user text-5xl text-blue-600"></i>
+                            <h3 class="text-2xl font-semibold">For Users</h3>
+                        </div>
+                        <p class="text-gray-600 mt-4">
+                            Need reliable services? Sign up as a user and find skilled professionals instantly.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-gray-700">
+                            <li>✅ Book trusted service providers</li>
+                            <li>✅ Pay securely & get assistance</li>
+                            <li>✅ Track service status in real-time</li>
+                        </ul>
+                        <a href="user/login.php" class="mt-5 inline-block bg-blue-600 text-white py-2 px-5 rounded-lg hover:bg-blue-800">Join as User</a>
+                    </div>
 
-    <div class="flex flex-col md:flex-row justify-center items-center gap-10 px-10">
-        <!-- User Card -->
-        <div class="max-w-md w-full p-8 bg-white shadow-lg rounded-lg border border-gray-300 transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
-            <div class="flex items-center gap-4">
-                <i class="fa-solid fa-user text-5xl text-blue-600"></i>
-                <h3 class="text-2xl font-semibold">For Users</h3>
-            </div>
-            <p class="text-gray-600 mt-4">
-                Need reliable services? Sign up as a user and find skilled professionals instantly.
-            </p>
-            <ul class="mt-4 space-y-2 text-gray-700">
-                <li>✅ Book trusted service providers</li>
-                <li>✅ Pay securely & get assistance</li>
-                <li>✅ Track service status in real-time</li>
-            </ul>
-            <a href="user/login.php" class="mt-5 inline-block bg-blue-600 text-white py-2 px-5 rounded-lg hover:bg-blue-800">Join as User</a>
-        </div>
-
-        <!-- Helper Card -->
-        <div class="max-w-md w-full p-8 bg-white shadow-lg rounded-lg border border-gray-300 transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
-            <div class="flex items-center gap-4">
-                <i class="fa-solid fa-handshake text-5xl text-green-600"></i>
-                <h3 class="text-2xl font-semibold">For Helpers</h3>
-            </div>
-            <p class="text-gray-600 mt-4">
-                Want to earn by helping others? Register as a helper and offer your services.
-            </p>
-            <ul class="mt-4 space-y-2 text-gray-700">
-                <li>✅ Get paid for your skills</li>
-                <li>✅ Connect with real clients</li>
-                <li>✅ Flexible work schedule</li>
-            </ul>
-            <a href="helper/login.php" class="mt-5 inline-block bg-green-600 text-white py-2 px-5 rounded-lg hover:bg-green-800">Join as Helper</a>
-        </div>
-    </div>
-</section>
-            </div>
+                    <!-- Helper Card -->
+                    <div class="max-w-md w-full p-8 bg-white shadow-lg rounded-lg border border-gray-300 transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-handshake text-5xl text-green-600"></i>
+                            <h3 class="text-2xl font-semibold">For Helpers</h3>
+                        </div>
+                        <p class="text-gray-600 mt-4">
+                            Want to earn by helping others? Register as a helper and offer your services.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-gray-700">
+                            <li>✅ Get paid for your skills</li>
+                            <li>✅ Connect with real clients</li>
+                            <li>✅ Flexible work schedule</li>
+                        </ul>
+                        <a href="helper/login.php" class="mt-5 inline-block bg-green-600 text-white py-2 px-5 rounded-lg hover:bg-green-800">Join as Helper</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </section>
 
@@ -477,12 +569,92 @@
         </div>
     </section>
 
-    <?php include 'footer.php'; ?>
+    <!-- Footer Section -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">ServiceSpire</h3>
+                    <p class="text-gray-400">
+                        Connecting communities through trusted services and helping hands.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.php" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="about.php" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="services.php" class="text-gray-400 hover:text-white transition">Services</a></li>
+                        <li><a href="contact_us.php" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 ServiceSpire. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Simple animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate cards on scroll
+        document.addEventListener("DOMContentLoaded", function () {
+            const header = document.getElementById("header");
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Add background and shadow on scroll
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 50) {
+                    header.classList.add("header-glass", "shadow-lg", "rounded-xl");
+                    header.classList.remove("bg-transparent");
+                } else {
+                    header.classList.remove("header-glass", "shadow-lg", "rounded-xl");
+                    header.classList.add("bg-transparent");
+                }
+            });
+
+            // Highlight the active page
+            const currentPath = window.location.pathname;
+            document.querySelectorAll(".nav-link").forEach(link => {
+                if (
+                    (currentPath.endsWith('/servicespire1/') || 
+                     currentPath.endsWith('/servicespire1/index.php') ||
+                     currentPath === '/servicespire1') && 
+                    link.getAttribute("href") === "index.php"
+                ) {
+                    link.classList.add("border-b-2", "border-indigo-600", "text-indigo-700", "font-semibold");
+                }
+            });
+
+            // Mobile menu toggle functionality
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle("hidden");
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add("hidden");
+                }
+            });
+
+            // Simple animations for cards
             const animateOnScroll = () => {
                 const cards = document.querySelectorAll('.card');
                 cards.forEach(card => {
@@ -520,19 +692,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

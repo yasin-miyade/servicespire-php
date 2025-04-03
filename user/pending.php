@@ -109,9 +109,9 @@ $completed_count = $completed_result['count'];
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300" id="job-card-<?php echo $row['id']; ?>">
             <!-- Job header with improved status indication -->
             <div class="px-6 py-4 bg-gradient-to-r from-indigo-50 to-white border-b border-gray-100">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-lg text-gray-900 truncate max-w-xs" title="<?php echo htmlspecialchars($row['work'] ?? 'Untitled Work'); ?>">
+                <div class="flex justify-between items-start gap-4">
+                    <div class="flex-1 min-w-0"> <!-- Container for title -->
+                        <h3 class="font-bold text-lg text-gray-900 break-words" title="<?php echo htmlspecialchars($row['work'] ?? 'Untitled Work'); ?>">
                             <?php echo htmlspecialchars($row['work'] ?? 'Untitled Work'); ?>
                         </h3>
                         <div class="flex items-center mt-1">
@@ -119,7 +119,7 @@ $completed_count = $completed_result['count'];
                             <span class="text-xs text-gray-500">Posted <?php echo date('M j, Y', strtotime($row['created_at'] ?? 'now')); ?></span>
                         </div>
                     </div>
-                    <span class="px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200 flex items-center">
+                    <span class="px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200 flex items-center flex-shrink-0">
                         <span class="w-2 h-2 bg-yellow-500 rounded-full mr-1.5 animate-pulse"></span>
                         In Progress
                     </span>
@@ -215,10 +215,6 @@ $completed_count = $completed_result['count'];
                             <i class="ph ph-key-return mr-1.5"></i> Generate Code
                         </button>
                         <?php endif; ?>
-                        
-                        <button onclick="cancelWork(<?php echo $row['id']; ?>)" class="btn inline-flex items-center px-3 py-2 border border-red-200 shadow-sm text-xs font-medium rounded-md text-red-600 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
-                            <i class="ph ph-x-circle mr-1.5"></i> Cancel
-                        </button>
                     </div>
                 </div>
             </div>
@@ -256,43 +252,6 @@ $completed_count = $completed_result['count'];
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button type="button" onclick="closeSuccessModal()" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
                     Close
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Confirmation Modal -->
-<div id="confirmationModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <!-- Background overlay -->
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        
-        <!-- Modal panel -->
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <i class="ph ph-warning text-red-600 text-xl"></i>
-                    </div>
-                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">
-                            Cancel Work
-                        </h3>
-                        <div class="mt-2">
-                            <p class="text-sm text-gray-500">
-                                Are you sure you want to cancel this work? The helper will be unassigned and the job will be available for others.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" id="confirmCancelBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                    Yes, Cancel Work
-                </button>
-                <button type="button" onclick="closeConfirmationModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                    No, Keep It
                 </button>
             </div>
         </div>
@@ -338,145 +297,7 @@ $completed_count = $completed_result['count'];
     </div>
 </div>
 
-<!-- Add JavaScript for cancel functionality -->
 <script>
-    let currentPostId = null;
-    
-    function cancelWork(postId) {
-        // Store the post ID for later use
-        currentPostId = postId;
-        
-        // Show confirmation modal instead of browser confirm
-        document.getElementById('confirmationModal').classList.remove('hidden');
-    }
-    
-    // Set up the confirmation button click handler
-    document.getElementById('confirmCancelBtn').addEventListener('click', function() {
-        if (currentPostId !== null) {
-            // Close the confirmation modal
-            closeConfirmationModal();
-            
-            // Process the cancellation
-            processCancelWork(currentPostId);
-        }
-    });
-    
-    function processCancelWork(postId) {
-        // Send AJAX request to cancel the work
-        fetch('../ajax/user_cancel_work.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'post_id=' + postId
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                // If the job is re-posted rather than removed, reset the verification code display
-                const codeBtn = document.getElementById('generate-code-btn-' + postId);
-                if (codeBtn) {
-                    // Reset to "Generate Code" button style and behavior
-                    codeBtn.innerHTML = '<i class="ph ph-key-return mr-1.5"></i> Generate Code';
-                    codeBtn.classList.remove('bg-green-50', 'text-green-700', 'border-green-300', 'hover:bg-green-100');
-                    codeBtn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300', 'hover:bg-blue-100');
-                    
-                    // Reset onclick handler to generate new code
-                    codeBtn.onclick = function() {
-                        generateVerificationCode(postId);
-                    };
-                }
-                
-                // Remove the work card from the UI
-                document.getElementById('job-card-' + postId).remove();
-                
-                // Update the counters
-                const pendingCountEl = document.querySelector('.border-indigo-500 .text-3xl');
-                const pendingCount = parseInt(pendingCountEl.textContent) - 1;
-                pendingCountEl.textContent = pendingCount;
-                
-                // Update the title counter
-                const sectionTitle = document.querySelector('[class*="border-l-4 border-indigo-500"]');
-                if (sectionTitle) {
-                    sectionTitle.textContent = `Pending Work (${pendingCount})`;
-                }
-                
-                // Show empty state if no more jobs
-                if (pendingCount === 0) {
-                    document.getElementById('jobs-container').innerHTML = `
-                        <div class="col-span-3 bg-white rounded-lg shadow-lg p-8 text-center">
-                            <div class="inline-block p-4 bg-indigo-50 rounded-full mb-4">
-                                <i class="ph ph-inbox text-4xl text-indigo-400"></i>
-                            </div>
-                            <h2 class="text-xl font-semibold text-gray-800 mb-2">No pending work</h2>
-                            <p class="text-gray-500 max-w-md mx-auto mb-6">When helpers accept your work requests, they'll appear here so you can track their progress.</p>
-                            <a href="?page=post_form" class="btn inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                                <i class="ph ph-plus-circle mr-2"></i> Create New Work Post
-                            </a>
-                        </div>
-                    `;
-                }
-                
-                // Show success modal
-                showResultModal('Success', 'Work has been canceled successfully.', 'success');
-            } else {
-                // Handle specific error case for post not found
-                if (data.message && data.message.includes('Post not found or not authorized')) {
-                    // Show specialized error modal with more helpful message
-                    showResultModal('Cannot Cancel Work', 'This post cannot be canceled. The helper may have already started the work or the post status has changed. Please refresh the page to see the latest status.', 'warning');
-                    
-                    // Refresh the job card status or hide it after a delay
-                    setTimeout(() => {
-                        // Try to refresh the page to get latest status
-                        window.location.reload();
-                    }, 3000);
-                } else {
-                    // Show general error in modal with specific message
-                    const errorMessage = data.message || 'Failed to cancel work.';
-                    showResultModal('Error', errorMessage, 'error');
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Show error in modal
-            showResultModal('Error', 'An error occurred. Please try again.', 'error');
-        });
-    }
-    
-    function showResultModal(title, message, type) {
-        // Set modal title and message
-        document.getElementById('modal-title').textContent = title;
-        document.getElementById('modal-message').textContent = message;
-        
-        // Set appropriate icon based on type
-        const iconContainer = document.getElementById('modal-icon');
-        const iconSymbol = document.getElementById('modal-icon-symbol');
-        
-        if (type === 'success') {
-            iconContainer.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10';
-            iconSymbol.className = 'ph ph-check-circle text-green-600 text-xl';
-        } else if (type === 'error') {
-            iconContainer.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10';
-            iconSymbol.className = 'ph ph-x-circle text-red-600 text-xl';
-        } else if (type === 'warning') {
-            iconContainer.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10';
-            iconSymbol.className = 'ph ph-warning text-yellow-600 text-xl';
-        }
-        
-        // Show modal
-        document.getElementById('successModal').classList.remove('hidden');
-    }
-    
-    function closeSuccessModal() {
-        document.getElementById('successModal').classList.add('hidden');
-    }
-    
-    function closeConfirmationModal() {
-        document.getElementById('confirmationModal').classList.add('hidden');
-        currentPostId = null;
-    }
-    
     // Function to show verification code
     function showVerificationCode(postId, code) {
         // Set the verification code in the modal

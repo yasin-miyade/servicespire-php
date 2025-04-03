@@ -1,7 +1,7 @@
 <?php
 // No whitespace or output before this line
-ob_start(); // Start output buffering at the very beginning
-// session_start(); // Make sure session is started
+ob_start();
+session_start(); // Uncomment this line
 
 // Include required files
 require_once('../lib/function.php');
@@ -15,7 +15,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email']; // Get logged-in user's email
 
 // Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_form'])) {
     // Get form data
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
@@ -52,28 +52,40 @@ if (isset($_SESSION['payment_success']) && $_SESSION['payment_success'] === true
     $postData = $_SESSION['post_data'];
     $db = new db_functions();
     
-    if ($db->insertWorkPost(
-        $postData['name'],
-        $postData['email'],
-        $postData['mobile'],
-        $postData['city'],
-        $postData['work'],
-        $postData['deadline'],
-        $postData['reward'],
-        $postData['message'],
-        $postData['from_location'],
-        $postData['to_location']
-    )) {
-        $_SESSION['success'] = "Work posted successfully!";
-        // Clear the session data
-        unset($_SESSION['post_data']);
-        unset($_SESSION['payment_success']);
-        // Success message will be displayed via JavaScript
-    } else {
-        $_SESSION['error'] = "Work post failed!";
-        // Clear the session data
-        unset($_SESSION['post_data']);
-        unset($_SESSION['payment_success']);
+    // Debug log
+    error_log("Attempting to create post: " . print_r($postData, true));
+    
+    try {
+        $result = $db->insertWorkPost(
+            $postData['name'],
+            $postData['email'],
+            $postData['mobile'],
+            $postData['city'],
+            $postData['work'],
+            $postData['deadline'],
+            $postData['reward'],
+            $postData['message'],
+            $postData['from_location'],
+            $postData['to_location']
+        );
+        
+        if ($result) {
+            error_log("Post created with ID: " . $result);
+            $_SESSION['last_post_id'] = $result;
+            $_SESSION['success'] = "Work posted successfully!";
+            unset($_SESSION['post_data']);
+            unset($_SESSION['payment_success']); // Clear payment flag
+            
+            header("Location: index.php?refresh=" . time());
+            exit();
+        } else {
+            throw new Exception("Failed to insert post");
+        }
+    } catch (Exception $e) {
+        error_log("Error creating post: " . $e->getMessage());
+        $_SESSION['error'] = "Failed to create work post. Please try again.";
+        header("Location: post_form.php");
+        exit();
     }
 }
 
@@ -94,6 +106,41 @@ ob_end_flush();
         }
         .step-indicator {
             transition: all 0.3s ease;
+        }
+        .suggestions-container {
+            position: relative;
+            width: 100%;
+        }
+        .suggestions-list {
+            position: absolute;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .suggestion-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .suggestion-item:hover {
+            background-color: #f7fafc;
+        }
+        .suggestion-item.active {
+            background-color: #ebf4ff;
+        }
+        .emergency-item {
+            color: #dc2626;
+            font-weight: 600;
+        }
+        .emergency-item::before {
+            content: "🚨 ";
         }
     </style>
 </head>
@@ -139,13 +186,14 @@ ob_end_flush();
                 <!-- Success Message (initially hidden) -->
                 <div id="successMessage" class="hidden bg-green-100 border border-green-300 text-green-700 px-6 py-8 rounded-lg mb-6 text-center">
                     <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Work Posted Successfully!</h3>
-                    <p class="mb-2">Your work request has been submitted.</p>
+                    <h3 class="text-xl font-bold mb-2" id="successTitle">Work Posted Successfully!</h3>
+                    <p class="mb-2" id="successText">Your work request has been submitted.</p>
                     <p class="text-sm text-gray-600">Redirecting to homepage in <span id="countdown">3</span> seconds...</p>
                 </div>
 
                 <!-- Form -->
                 <form id="multiStepForm" method="POST" class="<?php echo ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['success'])) ? 'hidden' : ''; ?>">
+                    <input type="hidden" name="submit_form" value="1">
                     <!-- Step 1: Personal Information -->
                     <div class="form-step" id="step1">
                         <div class="mb-5">
@@ -200,12 +248,16 @@ ob_end_flush();
                     <div class="form-step hidden" id="step2">
                         <div class="mb-5">
                             <label class="block text-gray-700 font-medium mb-2">Work Title <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                                    <i class="fas fa-briefcase"></i>
-                                </span>
-                                <input type="text" name="work" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter work title" />
+                            <div class="suggestions-container">
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                        <i class="fas fa-briefcase"></i>
+                                    </span>
+                                    <input type="text" id="workTitle" name="work" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter work title" autocomplete="off" />
+                                </div>
+                                <div id="suggestionsList" class="suggestions-list"></div>
                             </div>
+                            <p class="text-xs text-gray-500 mt-1">Start typing to see suggestions (e.g. "Medicine delivery", "Emergency plumber")</p>
                         </div>
 
                         <div class="mb-5">
@@ -298,6 +350,62 @@ ob_end_flush();
     <script>
     let currentStep = 1;
     const totalSteps = 3;
+    
+    // Comprehensive work suggestions including emergency services
+    const workSuggestions = [
+        // Emergency Services (highlighted in red)
+        {text: "Emergency medicine delivery (urgent)", emergency: true},
+        {text: "Emergency plumber needed (water leak)", emergency: true},
+        {text: "Emergency electrician (power outage)", emergency: true},
+        {text: "Emergency locksmith (locked out)", emergency: true},
+        {text: "Emergency car towing service", emergency: true},
+        {text: "Emergency pet care/veterinary help", emergency: true},
+        {text: "Emergency home repair (storm damage)", emergency: true},
+        {text: "Emergency babysitting needed", emergency: true},
+        {text: "Emergency document delivery (urgent)", emergency: true},
+        
+        // Academic Help
+        {text: "Assignment writing help (college)", emergency: false},
+        {text: "Thesis writing assistance", emergency: false},
+        {text: "Research paper writing", emergency: false},
+        {text: "Essay writing service", emergency: false},
+        {text: "Homework help (school subjects)", emergency: false},
+        {text: "Online tutoring (math/science)", emergency: false},
+        {text: "Project report writing", emergency: false},
+        
+        // Delivery Services
+        {text: "Medicine delivery from pharmacy", emergency: false},
+        {text: "Grocery delivery service", emergency: false},
+        {text: "Food delivery from restaurant", emergency: false},
+        {text: "Document delivery between offices", emergency: false},
+        {text: "Parcel delivery within city", emergency: false},
+        {text: "Gift delivery service", emergency: false},
+        {text: "Flower delivery for special occasion", emergency: false},
+        
+        // Home Services
+        {text: "Plumbing repair for leaky faucet", emergency: false},
+        {text: "Electrical wiring installation", emergency: false},
+        {text: "Home cleaning service", emergency: false},
+        {text: "Carpentry work for furniture", emergency: false},
+        {text: "Painting house interior", emergency: false},
+        {text: "AC repair and service", emergency: false},
+        {text: "Appliance repair (refrigerator, washing machine)", emergency: false},
+        {text: "Moving and packing assistance", emergency: false},
+        {text: "Gardening and landscaping", emergency: false},
+        {text: "Roof repair and maintenance", emergency: false},
+        
+        // Other Essential Services
+        {text: "Car mechanic service", emergency: false},
+        {text: "Computer repair and maintenance", emergency: false},
+        {text: "Event planning and management", emergency: false},
+        {text: "Photography for special occasions", emergency: false},
+        {text: "Catering service for events", emergency: false},
+        {text: "Personal fitness training", emergency: false},
+        {text: "Interior design consultation", emergency: false},
+        {text: "Tax preparation and filing", emergency: false},
+        {text: "Legal document preparation", emergency: false},
+        {text: "Translation services", emergency: false}
+    ];
 
     // Set minimum date for deadline field to today
     document.addEventListener('DOMContentLoaded', function() {
@@ -310,6 +418,86 @@ ob_end_flush();
         
         // Set the min attribute of the deadline field
         document.getElementById('deadline').setAttribute('min', formattedToday);
+        
+        // Initialize work title suggestions
+        const workTitleInput = document.getElementById('workTitle');
+        const suggestionsList = document.getElementById('suggestionsList');
+        
+        workTitleInput.addEventListener('input', function() {
+            const input = this.value.toLowerCase();
+            suggestionsList.innerHTML = '';
+            
+            if (input.length > 1) {
+                const filtered = workSuggestions.filter(item => 
+                    item.text.toLowerCase().includes(input)
+                );
+                
+                if (filtered.length > 0) {
+                    filtered.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = item.emergency ? 'suggestion-item emergency-item' : 'suggestion-item';
+                        div.textContent = item.text;
+                        div.addEventListener('click', function() {
+                            workTitleInput.value = this.textContent;
+                            suggestionsList.style.display = 'none';
+                        });
+                        suggestionsList.appendChild(div);
+                    });
+                    suggestionsList.style.display = 'block';
+                } else {
+                    suggestionsList.style.display = 'none';
+                }
+            } else {
+                suggestionsList.style.display = 'none';
+            }
+        });
+        
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target !== workTitleInput) {
+                suggestionsList.style.display = 'none';
+            }
+        });
+        
+        // Keyboard navigation for suggestions
+        workTitleInput.addEventListener('keydown', function(e) {
+            const items = suggestionsList.querySelectorAll('.suggestion-item');
+            let activeItem = suggestionsList.querySelector('.suggestion-item.active');
+            
+            if (items.length > 0) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!activeItem) {
+                        items[0].classList.add('active');
+                    } else {
+                        activeItem.classList.remove('active');
+                        const next = activeItem.nextElementSibling;
+                        if (next) {
+                            next.classList.add('active');
+                        } else {
+                            items[0].classList.add('active');
+                        }
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (!activeItem) {
+                        items[items.length - 1].classList.add('active');
+                    } else {
+                        activeItem.classList.remove('active');
+                        const prev = activeItem.previousElementSibling;
+                        if (prev) {
+                            prev.classList.add('active');
+                        } else {
+                            items[items.length - 1].classList.add('active');
+                        }
+                    }
+                } else if (e.key === 'Enter' && activeItem) {
+                    e.preventDefault();
+                    workTitleInput.value = activeItem.textContent;
+                    suggestionsList.style.display = 'none';
+                }
+            }
+        });
     });
 
     // Check if we need to show success message
@@ -317,6 +505,14 @@ ob_end_flush();
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('multiStepForm').classList.add('hidden');
         document.getElementById('successMessage').classList.remove('hidden');
+        
+        // Check if this is after payment success
+        <?php if (isset($_SESSION['payment_success_msg']) && $_SESSION['payment_success_msg'] === true): ?>
+        document.getElementById('successTitle').textContent = "Payment Successful!";
+        document.getElementById('successText').textContent = "Your work post has been published successfully.";
+        // Remove the flag
+        <?php unset($_SESSION['payment_success_msg']); ?>
+        <?php endif; ?>
         
         // Countdown and redirect
         let count = 3;
@@ -328,7 +524,9 @@ ob_end_flush();
             
             if (count <= 0) {
                 clearInterval(countdownInterval);
-                window.location.href = 'index.php';
+                // Redirect to index page with refresh parameter to ensure cache is bypassed
+                window.location.href = 'index.php?refresh=' + new Date().getTime() + 
+                    '<?php echo isset($_SESSION["last_post_id"]) ? "&highlight=" . $_SESSION["last_post_id"] : ""; ?>';
             }
         }, 1000);
     });
@@ -369,11 +567,10 @@ ob_end_flush();
         if (currentStep === 1) {
             const mobileInput = document.getElementById('mobileInput');
             if (!validateMobileNumber(mobileInput)) {
-                return false; // Don't proceed if validation fails
+                return; // Don't proceed if validation fails
             }
-        }
-        
-        if (currentStep === 2) {
+            showStep(2); // Proceed to step 2 after successful validation
+        } else if (currentStep === 2) {
             const isChecked = document.getElementById("enableLocations").checked;
             if (isChecked) {
                 showStep(3); // Show Step 3 if checkbox is checked
@@ -382,6 +579,15 @@ ob_end_flush();
             }
         } else if (currentStep < totalSteps) {
             showStep(currentStep + 1);
+        } else {
+            // All steps completed, add hidden input and submit the form
+            const form = document.getElementById('multiStepForm');
+            const submitInput = document.createElement('input');
+            submitInput.type = 'hidden';
+            submitInput.name = 'submit_form';
+            submitInput.value = '1';
+            form.appendChild(submitInput);
+            form.submit(); // Submit the form to trigger PHP redirection
         }
     }
 
@@ -401,7 +607,6 @@ ob_end_flush();
     document.getElementById('multiStepForm').addEventListener('submit', function(e) {
         const currentStepEl = document.getElementById(`step${currentStep}`);
         const requiredFields = currentStepEl.querySelectorAll('[required]');
-        
         let isValid = true;
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
@@ -411,7 +616,6 @@ ob_end_flush();
                 field.classList.remove('border-red-500');
             }
         });
-        
         if (!isValid) {
             e.preventDefault();
         }
@@ -425,7 +629,7 @@ ob_end_flush();
         const errorElement = document.getElementById('mobileError');
         let isValid = true;
         let errorMessage = '';
-        
+
         // Check if the input contained non-numeric characters
         if (value !== numbers) {
             errorMessage = 'Please enter only numbers in the mobile field';
@@ -477,24 +681,6 @@ ob_end_flush();
             }
         `;
         document.head.appendChild(style);
-    });
-
-    // Update the Continue button to validate before proceeding
-    document.querySelectorAll('button[onclick="nextStep()"]').forEach(button => {
-        button.addEventListener('click', function(e) {
-            // The validation now happens in the nextStep function
-        });
-    });
-    
-    // Update form submission logic without country code
-    document.getElementById('multiStepForm').addEventListener('submit', function(e) {
-        const mobileInput = document.getElementById('mobileInput');
-        
-        // Validate the mobile number before submission
-        if (!validateMobileNumber(mobileInput)) {
-            e.preventDefault();
-            return false;
-        }
     });
 
     // Ensure Step 1 is visible initially

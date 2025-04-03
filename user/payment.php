@@ -3,22 +3,35 @@
 ob_start(); // Start output buffering at the very beginning
 session_start();
 
+// Include required files
+require_once('../lib/function.php');
+
 // Ensure user is logged in
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
 
-// Check if post data exists in session
-if (!isset($_SESSION['post_data'])) {
+// Check payment type and set up variables
+$isEdit = isset($_GET['type']) && $_GET['type'] == 'edit';
+$postId = isset($_GET['id']) ? $_GET['id'] : null;
+$showEditInfo = false;
+
+// Check if we have the right session data
+if ($isEdit && isset($_SESSION['edit_post_data']) && isset($_SESSION['amount_difference'])) {
+    $postData = $_SESSION['edit_post_data'];
+    $amountDifference = $_SESSION['amount_difference'];
+    $postFee = (int)$amountDifference;
+    $showEditInfo = true;
+} elseif (isset($_SESSION['post_data'])) {
+    $postData = $_SESSION['post_data'];
+    // Use reward amount from the post as the payment amount
+    $postFee = (int)preg_replace('/[^\d]/', '', $postData['reward']);
+} else {
+    // Redirect if no valid data
     header("Location: post_form.php");
     exit();
 }
-
-$postData = $_SESSION['post_data'];
-
-// Use reward amount from the post as the payment amount
-$postFee = (int)preg_replace('/[^\d]/', '', $postData['reward']);
 
 // Set a minimum fee if reward is zero or not a valid number
 if ($postFee <= 0) {
@@ -33,32 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $paymentSuccessful = false;
     $paymentId = "";
     
-    switch ($paymentMethod) {
-        case 'razorpay':
-            // In a real implementation, you would validate the Razorpay payment here
-            $paymentSuccessful = true;
-            $paymentId = isset($_POST['razorpay_payment_id']) ? $_POST['razorpay_payment_id'] : 'RP' . rand(100000, 999999);
-            break;
-            
-        case 'upi':
-            // Process UPI payment
-            $upiId = $_POST['upi_id'];
-            // In a real implementation, you would validate the UPI payment here
-            $paymentSuccessful = true;
-            $paymentId = 'UPI' . rand(100000, 999999);
-            break;
-            
-        case 'card':
-            // Process card payment
-            $cardNumber = $_POST['card_number'];
-            $cardExpiry = $_POST['card_expiry'];
-            $cardCvv = $_POST['card_cvv'];
-            $cardName = $_POST['card_name'];
-            // In a real implementation, you would process card payment here
-            $paymentSuccessful = true;
-            $paymentId = 'CARD' . rand(100000, 999999);
-            break;
-    }
+    // Mock payment processing (in a real app, integrate with a payment gateway)
+    $paymentSuccessful = true;
+    $paymentId = 'PAY' . rand(100000, 999999);
     
     if ($paymentSuccessful) {
         // Store payment info in session
@@ -66,13 +56,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'payment_id' => $paymentId,
             'payment_method' => $paymentMethod,
             'amount' => $postFee,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => date('Y-m-d H:i:s'),
+            'is_edit_payment' => $isEdit
         ];
         $_SESSION['payment_success'] = true;
         
-        // Redirect to payment success page
-        header("Location: payment_success.php");
-        exit();
+        // For edit payment, update the post immediately
+        if ($isEdit && isset($_SESSION['edit_post_data'])) {
+            $editData = $_SESSION['edit_post_data'];
+            $db = new db_functions();
+            
+            if ($db->updateUserWorkPost(
+                $editData['id'],
+                $editData['email'],
+                $editData['work'],
+                $editData['city'],
+                $editData['deadline'],
+                $editData['reward'],
+                $editData['message'],
+                $editData['from_location'],
+                $editData['to_location']
+            )) {
+                $_SESSION['success'] = "Work post updated successfully!";
+                unset($_SESSION['edit_post_data']);
+                unset($_SESSION['amount_difference']);
+                
+                // Redirect to success page
+                header("Location: payment_success.php?type=edit");
+                exit();
+            } else {
+                $errorMessage = "Failed to update post. Payment was processed, but update failed.";
+            }
+        } else {
+            // For new posts, redirect to payment success page
+            header("Location: payment_success.php");
+            exit();
+        }
     } else {
         $errorMessage = "Payment failed. Please try again.";
     }
@@ -97,18 +116,47 @@ ob_end_flush();
         <div class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
             <!-- Payment Header -->
             <div class="bg-indigo-700 px-6 py-4">
-                <h2 class="text-2xl font-bold text-white text-center">Complete Payment</h2>
-                <p class="text-indigo-100 text-center mt-1">Pay posting fee to publish your work request</p>
+                <h2 class="text-2xl font-bold text-white text-center">
+                    <?php echo $isEdit ? 'Update Payment' : 'Complete Payment'; ?>
+                </h2>
+                <p class="text-indigo-100 text-center mt-1">
+                    <?php echo $isEdit ? 'Pay additional amount for updated work request' : 'Pay posting fee to publish your work request'; ?>
+                </p>
             </div>
             
             <div class="px-6 py-5">
                 <!-- Order Summary -->
                 <div class="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
                     <h3 class="text-lg font-medium text-gray-800 mb-2">Order Summary</h3>
+                    
+                    <?php if ($showEditInfo): ?>
+                    <div class="mb-3 p-2 bg-blue-50 border border-blue-200 rounded text-blue-700 text-sm">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle mt-1 mr-2"></i>
+                            <p>You're paying the difference because you increased the reward amount.</p>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
                     <div class="flex justify-between mb-1">
                         <span class="text-gray-600">Work Post Title:</span>
                         <span class="font-medium"><?php echo htmlspecialchars($postData['work']); ?></span>
                     </div>
+                    
+                    <?php if ($showEditInfo): ?>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-gray-600">Original Reward:</span>
+                        <span class="font-medium">₹<?php echo htmlspecialchars($postData['reward'] - $amountDifference); ?></span>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-gray-600">New Reward Amount:</span>
+                        <span class="font-medium text-green-600">₹<?php echo htmlspecialchars($postData['reward']); ?></span>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-gray-600">Additional Amount:</span>
+                        <span class="font-medium text-indigo-600">₹<?php echo htmlspecialchars($amountDifference); ?></span>
+                    </div>
+                    <?php else: ?>
                     <div class="flex justify-between mb-1">
                         <span class="text-gray-600">Work Reward Amount:</span>
                         <span class="font-medium text-green-600">₹<?php echo htmlspecialchars($postData['reward']); ?></span>
@@ -117,6 +165,8 @@ ob_end_flush();
                         <span class="text-gray-600">Service Fee:</span>
                         <span class="font-medium">₹<?php echo $postFee; ?></span>
                     </div>
+                    <?php endif; ?>
+                    
                     <div class="flex justify-between pt-2 border-t border-gray-200 mt-2">
                         <span class="text-gray-800 font-medium">Total Amount:</span>
                         <span class="text-indigo-700 font-bold">₹<?php echo $postFee; ?></span>

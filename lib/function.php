@@ -147,14 +147,10 @@ class db_functions
     //user post form data storing
     public function insertWorkPost($name, $email, $mobile, $city, $work, $deadline, $reward, $message, $from_location, $to_location) {
         try {
-            // Set default status to 'open' for new posts
-            $status = 'open';
-            
-            // Check first if the work_posts table exists
+            // First ensure work_posts table exists with correct structure
             $check_table = $this->con->query("SHOW TABLES LIKE 'work_posts'");
             if ($check_table->num_rows === 0) {
-                // Table doesn't exist, create it
-                $create_table_sql = "CREATE TABLE work_posts (
+                $create_table = "CREATE TABLE IF NOT EXISTS work_posts (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
@@ -164,48 +160,51 @@ class db_functions
                     deadline DATE NOT NULL,
                     reward VARCHAR(100) NOT NULL,
                     message TEXT NOT NULL,
-                    from_location VARCHAR(255),
-                    to_location VARCHAR(255),
+                    from_location VARCHAR(255) NULL,
+                    to_location VARCHAR(255) NULL,
                     status VARCHAR(20) DEFAULT 'open',
                     assigned_helper_email VARCHAR(255) NULL,
-                    notification TEXT NULL,
-                    verification_code VARCHAR(6) NULL,
-                    completion_note TEXT NULL,
-                    completed_at DATETIME NULL,
                     deleted TINYINT DEFAULT 0,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-                )";
-                $this->con->query($create_table_sql);
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+                
+                if (!$this->con->query($create_table)) {
+                    throw new Exception("Failed to create table: " . $this->con->error);
+                }
             }
-            
-            // Check if status column exists
-            $check_column = $this->con->query("SHOW COLUMNS FROM work_posts LIKE 'status'");
-            if ($check_column->num_rows === 0) {
-                // Add status column if it doesn't exist
-                $this->con->query("ALTER TABLE work_posts ADD COLUMN status VARCHAR(20) DEFAULT 'open'");
-            }
-            
-            // Now insert with the status
-            $stmt = $this->con->prepare("INSERT INTO work_posts (name, email, mobile, city, work, deadline, reward, message, from_location, to_location, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            // Insert the post
+            $status = 'open';
+            $stmt = $this->con->prepare("INSERT INTO work_posts 
+                (name, email, mobile, city, work, deadline, reward, message, from_location, to_location, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             if (!$stmt) {
-                error_log("Error preparing statement: " . $this->con->error);
-                return false;
+                throw new Exception("Prepare failed: " . $this->con->error);
             }
             
-            $stmt->bind_param("sssssssssss", $name, $email, $mobile, $city, $work, $deadline, $reward, $message, $from_location, $to_location, $status);
-            $result = $stmt->execute();
+            $stmt->bind_param("sssssssssss", 
+                $name, $email, $mobile, $city, $work, $deadline, $reward, 
+                $message, $from_location, $to_location, $status
+            );
             
-            if (!$result) {
-                error_log("Error executing statement: " . $stmt->error);
-                return false;
+            if (!$stmt->execute()) {
+                throw new Exception("Execute failed: " . $stmt->error);
             }
             
-            return true;
-        } catch (Exception $e) {
-            error_log("Exception in insertWorkPost: " . $e->getMessage());
+            $insert_id = $this->con->insert_id;
+            $stmt->close();
+            
+            if ($insert_id) {
+                error_log("Successfully inserted post with ID: " . $insert_id);
+                return $insert_id;
+            }
+            
             return false;
+        } catch (Exception $e) {
+            error_log("Error in insertWorkPost: " . $e->getMessage());
+            throw $e;
         }
     }
     
@@ -247,6 +246,31 @@ class db_functions
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
+    }
+
+    // Fetch a single post by ID
+    public function getWorkPostById($id) {
+        $query = "SELECT * FROM work_posts WHERE id = ?";
+        $stmt = $this->con->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    // Add this method inside the db_functions class
+    public function getWorkPost($post_id) {
+        try {
+            $query = "SELECT * FROM work_posts WHERE id = ? AND (deleted = 0 OR deleted IS NULL)";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("i", $post_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        } catch (Exception $e) {
+            error_log("Error in getWorkPost: " . $e->getMessage());
+            return null;
+        }
     }
 
     // Update a user's post
@@ -310,8 +334,10 @@ class db_functions
     // Update to filter by helper email
     public function getPendingRequests($helper_email = null) {
         if ($helper_email) {
-            // Count only posts assigned to this helper with pending status
-            $query = "SELECT COUNT(*) as count FROM work_posts WHERE status = 'pending' AND assigned_helper_email = ?";
+            // Count posts assigned to this helper with pending or pending_approval status
+            $query = "SELECT COUNT(*) as count FROM work_posts 
+                     WHERE (status = 'pending' OR status = 'pending_approval') 
+                     AND assigned_helper_email = ?";
             $stmt = $this->con->prepare($query);
             $stmt->bind_param("s", $helper_email);
             $stmt->execute();
@@ -320,7 +346,8 @@ class db_functions
             return $row['count'];
         } else {
             // Original behavior for admin views
-            $query = "SELECT COUNT(*) as count FROM work_posts WHERE status = 'pending'";
+            $query = "SELECT COUNT(*) as count FROM work_posts 
+                     WHERE status = 'pending' OR status = 'pending_approval'";
             $result = $this->con->query($query);
             $row = $result->fetch_assoc();
             return $row['count'];
@@ -369,59 +396,55 @@ class db_functions
     }
 
     public function assignHelper($post_id, $helper_email) {
-        // Check if this helper was previously assigned to this post
-        $check_query = "SELECT assigned_helper_email, status FROM work_posts WHERE id = ?";
-        $check_stmt = $this->con->prepare($check_query);
-        $check_stmt->bind_param("i", $post_id);
-        $check_stmt->execute();
-        $result = $check_stmt->get_result();
-        $row = $result->fetch_assoc();
-        
-        // Get current timestamp in correct format
-        $current_time = date("Y-m-d H:i:s");
-        
-        // If this helper was previously assigned and is requesting again, update the timestamp
-        if ($row && $row['assigned_helper_email'] === $helper_email) {
-            // If already assigned but not accepted yet (status is still 'open'), just update timestamp
-            $update_query = "UPDATE work_posts SET updated_at = ? WHERE id = ?";
-            $update_stmt = $this->con->prepare($update_query);
-            $update_stmt->bind_param("si", $current_time, $post_id);
-            return $update_stmt->execute();
-        } else {
-            // New assignment - set assigned_helper_email but keep status as 'open'
-            // This will make it appear in notifications for the user to accept
-            $query = "UPDATE work_posts SET assigned_helper_email = ?, updated_at = ? WHERE id = ? AND (assigned_helper_email IS NULL OR status = 'open')";
-            $stmt = $this->con->prepare($query);
-            $stmt->bind_param("ssi", $helper_email, $current_time, $post_id);
+        try {
+            // Start transaction
+            $this->con->begin_transaction();
             
-            $result = $stmt->execute();
-            $affected = $stmt->affected_rows;
-            
-            // Also create a notification for the user
-            if ($result && $affected > 0) {
-                // Insert into notifications table if it exists
-                $check_table = $this->con->query("SHOW TABLES LIKE 'notifications'");
-                if ($check_table->num_rows > 0) {
-                    // Get user email from post
-                    $user_query = "SELECT email FROM work_posts WHERE id = ?";
-                    $user_stmt = $this->con->prepare($user_query);
-                    $user_stmt->bind_param("i", $post_id);
-                    $user_stmt->execute();
-                    $user_result = $user_stmt->get_result();
-                    $user_data = $user_result->fetch_assoc();
-                    
-                    if ($user_data) {
-                        // Create notification
-                        $notify_query = "INSERT INTO notifications (user_email, message, post_id, created_at) 
-                                         VALUES (?, 'A helper has requested to help with your work', ?, NOW())";
-                        $notify_stmt = $this->con->prepare($notify_query);
-                        $notify_stmt->bind_param("si", $user_data['email'], $post_id);
-                        $notify_stmt->execute();
-                    }
-                }
+            // Check if post exists and is available
+            $check_query = "SELECT status, assigned_helper_email FROM work_posts WHERE id = ? AND deleted = 0";
+            $check_stmt = $this->con->prepare($check_query);
+            $check_stmt->bind_param("i", $post_id);
+            $check_stmt->execute();
+            $result = $check_stmt->get_result()->fetch_assoc();
+
+            if (!$result) {
+                throw new Exception("Post not found");
             }
+
+            if ($result['status'] === 'completed' || $result['status'] === 'accepted') {
+                throw new Exception("Post is no longer available");
+            }
+
+            if ($result['assigned_helper_email'] === $helper_email) {
+                throw new Exception("You have already requested this post");
+            }
+
+            // Update post status and assign helper
+            $update_query = "UPDATE work_posts 
+                            SET assigned_helper_email = ?,
+                                status = 'pending_approval',
+                                updated_at = NOW()
+                            WHERE id = ? 
+                            AND (status = 'open' OR status IS NULL OR status = '')
+                            AND (assigned_helper_email IS NULL OR assigned_helper_email = '')";
             
-            return $result;
+            $update_stmt = $this->con->prepare($update_query);
+            $update_stmt->bind_param("si", $helper_email, $post_id);
+            $success = $update_stmt->execute();
+            
+            if (!$success || $update_stmt->affected_rows === 0) {
+                throw new Exception("Failed to update post status");
+            }
+
+            // Commit transaction
+            $this->con->commit();
+            return true;
+
+        } catch (Exception $e) {
+            // Rollback on error
+            $this->con->rollback();
+            error_log("Error in assignHelper: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -512,16 +535,6 @@ class db_functions
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
-
-
-
-
-
-
-    
-
-
 
     ///profile autofill of user
     public function get_user_by_id($user_id) {
@@ -736,67 +749,39 @@ class db_functions
 
     public function getOpenWorkPostsAndHelperRequests($helper_email) {
         try {
-            // Debug the function call
-            error_log("Getting open work posts for helper: $helper_email");
+            error_log("Fetching posts for helper: $helper_email");
             
-            // Get current date for deadline check
             $current_date = date('Y-m-d');
-            
-            // Check if status field exists in the work_posts table
-            $check_status_field = $this->con->query("SHOW COLUMNS FROM `work_posts` LIKE 'status'");
-            
-            if ($check_status_field->num_rows === 0) {
-                // No status field, use simpler query focusing on the assigned_helper_email field
-                $query = "SELECT * FROM work_posts 
-                        WHERE (deleted = 0 OR deleted IS NULL)
-                        AND (deadline >= ? OR deadline IS NULL) 
-                        AND (
-                            assigned_helper_email IS NULL 
-                            OR assigned_helper_email = ?
-                        )
-                        ORDER BY id DESC";
-                        
-                $stmt = $this->con->prepare($query);
-                $stmt->bind_param("ss", $current_date, $helper_email);
-            } else {
-                // Modified query to correctly fetch posts that should be available to helpers
-                // This includes posts with NULL or empty status and unassigned posts
-                $query = "SELECT * FROM work_posts 
-                        WHERE (deleted = 0 OR deleted IS NULL)
-                        AND (deadline >= ? OR deadline IS NULL)
-                        AND (
-                            (status = 'open' OR status IS NULL OR status = '') 
-                            OR (assigned_helper_email IS NULL AND status != 'completed' AND status != 'pending_approval' AND status != 'accepted')
-                            OR (assigned_helper_email = ? AND status != 'completed')
-                        )
-                        ORDER BY id DESC";
-                        
-                $stmt = $this->con->prepare($query);
-                $stmt->bind_param("ss", $current_date, $helper_email);
-            }
-            
+            $query = "SELECT wp.*, 
+                      CASE WHEN LOWER(wp.work) LIKE '%emergency%' THEN 1 ELSE 0 END as is_emergency,
+                      CASE WHEN hp.helper_email IS NOT NULL THEN 1 ELSE 0 END as has_pending_request
+                      FROM work_posts wp 
+                      LEFT JOIN helper_pending_requests hp ON wp.id = hp.post_id AND hp.helper_email = ?
+                      WHERE wp.deleted = 0 
+                      AND (wp.deadline >= ? OR wp.deadline IS NULL)
+                      AND (
+                          wp.status = 'open' 
+                          OR wp.status IS NULL 
+                          OR (wp.status = 'pending' AND hp.helper_email IS NOT NULL)
+                      )
+                      ORDER BY wp.is_emergency DESC, wp.created_at DESC";
+
+            $stmt = $this->con->prepare($query);
             if (!$stmt) {
-                error_log("Error preparing statement: " . $this->con->error);
-                return array(); // Return empty array on error
+                throw new Exception("Prepare failed: " . $this->con->error);
             }
-            
+
+            $stmt->bind_param("ss", $helper_email, $current_date);
             $stmt->execute();
             $result = $stmt->get_result();
-            
-            if (!$result) {
-                error_log("Error executing query: " . $stmt->error);
-                return array();
-            }
-            
             $posts = $result->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
             
-            error_log("Found " . count($posts) . " available posts for helper: $helper_email");
-            
+            error_log("Found " . count($posts) . " posts for helper");
             return $posts;
+
         } catch (Exception $e) {
-            error_log("Exception in getOpenWorkPostsAndHelperRequests: " . $e->getMessage());
-            return array();
+            error_log("Error in getOpenWorkPostsAndHelperRequests: " . $e->getMessage());
+            return [];
         }
     }
 
@@ -856,6 +841,20 @@ class db_functions
         $debug['posts_assigned_to_helper'] = $assigned;
         
         return $debug;
+    }
+
+    // Add new function to track pending requests
+    public function addHelperPendingRequest($post_id, $helper_email) {
+        try {
+            $query = "INSERT INTO helper_pending_requests (post_id, helper_email, request_date) 
+                      VALUES (?, ?, NOW())";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("is", $post_id, $helper_email);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error adding pending request: " . $e->getMessage());
+            return false;
+        }
     }
 }
 ?>

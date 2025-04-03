@@ -16,45 +16,80 @@ $db = new db_functions();
 // Add more comprehensive debugging to check the SQL and database structure
 $debug = [];
 
-// Check if status column exists
-$status_check = $db->connect()->query("SHOW COLUMNS FROM work_posts LIKE 'status'");
-$status_exists = $status_check && $status_check->num_rows > 0;
-$debug['status_column_exists'] = $status_exists ? 'Yes' : 'No';
-
 // Get a count of all posts for this user regardless of status
-$all_posts_query = "SELECT COUNT(*) AS total FROM work_posts WHERE email = ?";
+$all_posts_query = "SELECT COUNT(*) AS total FROM work_posts WHERE email = ? AND deleted = 0";
 $stmt1 = $db->connect()->prepare($all_posts_query);
 $stmt1->bind_param("s", $email);
 $stmt1->execute();
 $result1 = $stmt1->get_result()->fetch_assoc();
 $debug['total_posts'] = $result1['total'];
 
-// Fix the query to properly handle status filtering
-// Use a more flexible query that works even if some posts don't have a status value
-if ($status_exists) {
-    $query = "SELECT * FROM work_posts WHERE email = ? AND (status IS NULL OR status = 'open' OR status = '') ORDER BY created_at DESC";
-} else {
-    // Fallback query if status column doesn't exist
-    $query = "SELECT * FROM work_posts WHERE email = ? AND (assigned_helper_email IS NULL) ORDER BY created_at DESC";
-}
+// Main query to fetch posts - show all posts regardless of deadline
+$query = "SELECT * FROM work_posts 
+          WHERE email = ? 
+          AND deleted = 0
+          AND assigned_helper_email IS NULL
+          AND (
+              status = 'open' 
+              OR status IS NULL 
+              OR (status != 'completed' AND status != 'cancelled')
+          )
+          ORDER BY created_at DESC";
 
 $stmt = $db->connect()->prepare($query);
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $work_posts = $stmt->get_result();
+
+// Add debug output
 $debug_count = $work_posts->num_rows;
+error_log("Found {$debug_count} available posts for email: {$email}");
 
 // Output debug info as HTML comment
-echo "<!-- DEBUG INFO: Open posts found: $debug_count, Total posts: {$result1['total']}, Status column exists: $status_exists -->";
+echo "<!-- DEBUG INFO: Posts found: $debug_count, Total posts: {$result1['total']}, User email: $email -->";
 
 // Handle post deletion
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $post_id = $_POST['delete_id'];
-    if ($db->deleteWorkPost($post_id)) {
-        $_SESSION['success'] = "Post deleted successfully!";
+    
+    // Get post details before deletion
+    $get_post_query = "SELECT reward FROM work_posts WHERE id = ? AND email = ?";
+    $stmt = $db->connect()->prepare($get_post_query);
+    $stmt->bind_param("is", $post_id, $email);
+    $stmt->execute();
+    $post_result = $stmt->get_result()->fetch_assoc();
+    
+    if ($post_result) {
+        $reward_amount = $post_result['reward'];
+        
+        // Start transaction
+        $db->connect()->begin_transaction();
+        
+        try {
+            // First process the refund
+            $refund_query = "UPDATE users SET wallet_balance = wallet_balance + ? WHERE email = ?";
+            $refund_stmt = $db->connect()->prepare($refund_query);
+            $refund_stmt->bind_param("ds", $reward_amount, $email);
+            
+            if ($refund_stmt->execute()) {
+                // After successful refund, delete the post
+                if ($db->deleteWorkPost($post_id)) {
+                    $db->connect()->commit();
+                    $_SESSION['success'] = "₹" . $reward_amount . " refunded to your wallet and post deleted successfully!";
+                } else {
+                    throw new Exception("Post refunded but deletion failed");
+                }
+            } else {
+                throw new Exception("Failed to process refund");
+            }
+        } catch (Exception $e) {
+            $db->connect()->rollback();
+            $_SESSION['error'] = $e->getMessage();
+        }
     } else {
-        $_SESSION['error'] = "Failed to delete post!";
+        $_SESSION['error'] = "Post not found or unauthorized!";
     }
+    
     header("Location: index.php");
     exit();
 }
@@ -228,88 +263,117 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                             $post_class = $is_expired ? 'expired-post' : '';
                         ?>
                         <!-- Post Container with Hover Effect -->
-                        <div
-                            class="relative bg-white shadow-lg border-l-8 border-indigo-500 rounded-xl overflow-hidden transform hover:-translate-y-2 hover:shadow-xl transition-all <?php echo $post_class; ?>">
+                        <div class="relative 
+                            <?php 
+                            $isEmergency = stripos($post['work'], 'emergency') !== false;
+                            $is_expired = !empty($post['deadline']) && strtotime($post['deadline']) < strtotime(date('Y-m-d'));
                             
-                            <?php if($is_expired): ?>
-                            <!-- Expired Post Notification -->
-                            <div class="expired-post-indicator">
-                                <i class="ph ph-warning"></i> DEADLINE EXPIRED
-                            </div>
+                            // Set background and border colors - expired posts get gray styling
+                            if ($is_expired) {
+                                echo 'bg-gray-50 border-gray-400';
+                            } elseif ($isEmergency) {
+                                echo 'bg-red-50 border-red-500';
+                            } else {
+                                echo 'bg-white border-indigo-500';
+                            }
+                            ?> 
+                            shadow-lg border-l-8 rounded-xl overflow-hidden transform hover:-translate-y-2 hover:shadow-xl transition-all">
+                            
+                            <!-- Add expired status badge -->
+                            <?php if ($is_expired): ?>
+                                <div class="absolute top-4 right-4 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-full flex items-center gap-1">
+                                    <i class="ph ph-clock-counter-clockwise"></i> Expired Post
+                                </div>
                             <?php endif; ?>
                             
-                            <div class="p-8">
-                                <!-- Post Title -->
-                                <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center gap-2">
-                                    <i class="ph ph-briefcase text-indigo-600"></i> Work Details
+                            <div class="p-8 <?php echo $is_expired ? 'border-t-4 border-gray-200' : ''; ?>">
+                                <!-- Post Title with expired styling -->
+                                <h3 class="text-2xl font-semibold <?php echo $is_expired ? 'text-gray-600' : ($isEmergency ? 'text-red-700' : 'text-indigo-700'); ?> mb-6 flex items-center gap-2">
+                                    <?php if ($is_expired): ?>
+                                        <i class="ph ph-clock-counter-clockwise text-gray-500"></i>
+                                    <?php elseif ($isEmergency): ?>
+                                        <i class="ph ph-warning-circle text-red-600"></i>
+                                    <?php else: ?>
+                                        <i class="ph ph-briefcase text-indigo-600"></i>
+                                    <?php endif; ?>
+                                    <?php echo htmlspecialchars($post['work']); ?>
                                 </h3>
 
                                 <!-- Post Details -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 <?php echo $is_expired ? 'text-gray-400' : 'text-gray-800'; ?>">
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-user text-indigo-600"></i>
-                                        <strong>Name:</strong> <?php echo htmlspecialchars($post['name']); ?>
+                                        <i class="ph ph-user <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">Name:</strong> 
+                                        <?php echo htmlspecialchars($post['name']); ?>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-phone text-indigo-600"></i>
-                                        <strong>Mobile:</strong> <?php echo htmlspecialchars($post['mobile']); ?>
+                                        <i class="ph ph-phone <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">Mobile:</strong> 
+                                        <?php echo htmlspecialchars($post['mobile']); ?>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-map-pin text-indigo-600"></i>
-                                        <strong>City:</strong> <?php echo htmlspecialchars($post['city']); ?>
+                                        <i class="ph ph-map-pin <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">City:</strong> 
+                                        <?php echo htmlspecialchars($post['city']); ?>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-gear text-indigo-600"></i>
-                                        <strong>Work:</strong> <?php echo htmlspecialchars($post['work']); ?>
+                                        <i class="ph ph-gear <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">Work:</strong> 
+                                        <?php echo htmlspecialchars($post['work']); ?>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-calendar <?php echo $is_expired ? 'text-red-600' : 'text-indigo-600'; ?>"></i>
-                                        <strong>Deadline:</strong> 
-                                        <span class="<?php echo $is_expired ? 'text-red-600 font-semibold' : ''; ?>">
+                                        <i class="ph ph-calendar <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">Deadline:</strong> 
+                                        <span class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">
                                             <?php echo htmlspecialchars($post['deadline']); ?>
                                             <?php if($is_expired): ?>
-                                            <span class="text-red-600 ml-2">(Expired)</span>
+                                                <span class="text-gray-600 ml-2">(Expired)</span>
                                             <?php endif; ?>
                                         </span>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-currency-circle-dollar text-indigo-600"></i>
-                                        <strong>Work Reward:</strong>
-                                        <span
-                                            class="text-green-600 font-bold"><?php echo htmlspecialchars($post['reward']); ?></span>
+                                        <i class="ph ph-currency-circle-dollar <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">Work Reward:</strong>
+                                        <span class="<?php echo $is_expired ? 'text-gray-400 font-bold' : 'text-green-600 font-bold'; ?>">
+                                            <?php echo htmlspecialchars($post['reward']); ?>
+                                        </span>
                                     </div>
                                     <div class="col-span-2 flex items-start gap-3">
-                                        <i class="ph ph-chat-circle-dots text-indigo-600"></i>
-                                        <strong>Message:</strong>
-                                        <span
-                                            class="italic text-gray-600">"<?php echo nl2br(htmlspecialchars($post['message'])); ?>"</span>
+                                        <i class="ph ph-chat-circle-dots <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">Message:</strong>
+                                        <span class="<?php echo $is_expired ? 'text-gray-400' : 'text-gray-600'; ?> italic">
+                                            <?php echo nl2br(htmlspecialchars($post['message'])); ?>
+                                        </span>
                                     </div>
+                                    
                                     <?php if (!empty($post['from_location']) && !empty($post['to_location'])): ?>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-map-trifold text-blue-600"></i>
-                                        <strong>From Location:</strong> <?php echo htmlspecialchars($post['from_location']); ?>
+                                        <i class="ph ph-map-trifold <?php echo $is_expired ? 'text-gray-400' : 'text-blue-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">From Location:</strong> 
+                                        <?php echo htmlspecialchars($post['from_location']); ?>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <i class="ph ph-map-trifold text-red-600"></i>
-                                        <strong>To Location:</strong> <?php echo htmlspecialchars($post['to_location']); ?>
+                                        <i class="ph ph-map-trifold <?php echo $is_expired ? 'text-gray-400' : 'text-red-600'; ?>"></i>
+                                        <strong class="<?php echo $is_expired ? 'text-gray-400' : ''; ?>">To Location:</strong> 
+                                        <?php echo htmlspecialchars($post['to_location']); ?>
                                     </div>
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Post Footer -->
-                                <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-                                    <span class="text-gray-700 text-sm flex items-center gap-2">
-                                        <i class="ph ph-clock text-indigo-600"></i> Posted on:
-                                        <?php echo date("d M Y", strtotime($post['created_at'])); ?>
+                                <!-- Post Footer with gray styling for expired posts -->
+                                <div class="mt-8 pt-6 <?php echo $is_expired ? 'border-t border-gray-200' : 'border-gray-100'; ?> flex flex-col sm:flex-row justify-between items-center gap-4">
+                                    <span class="<?php echo $is_expired ? 'text-gray-400' : 'text-gray-700'; ?> text-sm flex items-center gap-2">
+                                        <i class="ph ph-clock <?php echo $is_expired ? 'text-gray-400' : 'text-indigo-600'; ?>"></i> 
+                                        Posted on: <?php echo date("d M Y", strtotime($post['created_at'])); ?>
                                     </span>
                                     <div class="flex items-center gap-3">
                                         <a href="edit_post.php?id=<?php echo $post['id']; ?>"
-                                            class="btn bg-indigo-600 text-white font-medium py-2 px-5 rounded-lg hover:bg-indigo-700 transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
+                                            class="btn <?php echo $is_expired ? 'bg-gray-400 hover:bg-gray-500' : 'bg-indigo-600 hover:bg-indigo-700'; ?> text-white font-medium py-2 px-5 rounded-lg transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
                                             <i class="ph ph-pencil-simple"></i> Edit
                                         </a>
                                         <button type="button" 
                                             data-post-id="<?php echo $post['id']; ?>" 
-                                            class="delete-btn btn bg-red-500 text-white font-medium py-2 px-5 rounded-lg hover:bg-red-700 transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
+                                            class="delete-btn btn <?php echo $is_expired ? 'bg-gray-400 hover:bg-gray-500' : 'bg-red-500 hover:bg-red-700'; ?> text-white font-medium py-2 px-5 rounded-lg transition-all hover:-translate-y-1 flex items-center gap-2 shadow-sm">
                                             <i class="ph ph-trash"></i> Delete
                                         </button>
                                     </div>
@@ -338,12 +402,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                     <button id="cancelDelete" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-all">
                                         Cancel
                                     </button>
-                                    <form id="confirmDeleteForm" method="POST">
-                                        <input type="hidden" id="modalDeleteId" name="delete_id" value="">
-                                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
-                                            Yes, Delete
-                                        </button>
-                                    </form>
+                                    <a href="refund_confirm.php?post_id=" id="confirmRefundLink" 
+                                       class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all inline-block">
+                                        Proceed to Refund
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -454,18 +516,17 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         const deleteButtons = document.querySelectorAll('.delete-btn');
         const deleteModal = document.getElementById('deleteModal');
         const cancelDelete = document.getElementById('cancelDelete');
-        const modalDeleteId = document.getElementById('modalDeleteId');
+        const confirmRefundLink = document.getElementById('confirmRefundLink');
         const modalOverlay = document.querySelector('.modal-overlay');
         const modalContainer = document.querySelector('.modal-container');
         
         deleteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const postId = this.getAttribute('data-post-id');
-                modalDeleteId.value = postId;
+                confirmRefundLink.href = `refund_confirm.php?post_id=${postId}`;
                 deleteModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                document.body.style.overflow = 'hidden';
                 
-                // Add animation class for modal appearance
                 setTimeout(() => {
                     modalContainer.classList.add('scale-100', 'opacity-100');
                     modalContainer.classList.remove('scale-95', 'opacity-0');

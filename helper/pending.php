@@ -142,9 +142,9 @@
             <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300" id="job-card-<?php echo $row['id']; ?>">
                 <!-- Job header with improved status indication -->
                 <div class="px-6 py-4 bg-gradient-to-r from-indigo-50 to-white border-b border-gray-100">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-bold text-lg text-gray-900 truncate max-w-xs" title="<?php echo htmlspecialchars($row['work'] ?? 'Untitled Job'); ?>">
+                    <div class="flex justify-between items-start gap-4">
+                        <div class="flex-1 min-w-0"> <!-- Container for title -->
+                            <h3 class="font-bold text-lg text-gray-900 break-words" title="<?php echo htmlspecialchars($row['work'] ?? 'Untitled Job'); ?>">
                                 <?php echo htmlspecialchars($row['work'] ?? 'Untitled Job'); ?>
                             </h3>
                             <div class="flex items-center mt-1">
@@ -152,7 +152,7 @@
                                 <span class="text-xs text-gray-500">Posted <?php echo date('M j, Y', strtotime($row['created_at'] ?? 'now')); ?></span>
                             </div>
                         </div>
-                        <span class="px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200 flex items-center">
+                        <span class="px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200 flex items-center flex-shrink-0">
                             <span class="w-2 h-2 bg-yellow-500 rounded-full mr-1.5 animate-pulse"></span>
                             In Progress
                         </span>

@@ -32,9 +32,61 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $to_location = isset($_POST['to_location']) ? htmlspecialchars($_POST['to_location']) : '';
     }
 
-    // Update the database
-    $updated = $db->updateUserWorkPost($post_id, $email, $work, $city, $deadline, $reward, $message, $from_location, $to_location);
-    $isUpdating = true;
+    // Get original post data to compare reward amount
+    $original_post = $db->getWorkPostById($post_id);
+    $original_reward = (float)$original_post['reward'];
+    $new_reward = (float)$reward;
+
+    // Compare original and new reward amounts
+    if ($new_reward > $original_reward) {
+        // Store edit data in session for payment processing
+        $_SESSION['edit_post_data'] = [
+            'id' => $post_id,
+            'name' => $original_post['name'],
+            'email' => $email,
+            'mobile' => $original_post['mobile'],
+            'city' => $city,
+            'work' => $work,
+            'deadline' => $deadline,
+            'reward' => $reward,
+            'message' => $message,
+            'from_location' => $from_location,
+            'to_location' => $to_location,
+        ];
+        
+        // Calculate amount difference to be paid
+        $_SESSION['amount_difference'] = $new_reward - $original_reward;
+        
+        // Redirect to payment page
+        header("Location: payment.php?type=edit&id=$post_id");
+        exit();
+    } elseif ($new_reward < $original_reward) {
+        // Store edit data for processing
+        $_SESSION['edit_post_data'] = [
+            'id' => $post_id,
+            'name' => $original_post['name'],
+            'email' => $email,
+            'mobile' => $original_post['mobile'],
+            'city' => $city,
+            'work' => $work,
+            'deadline' => $deadline,
+            'reward' => $reward,
+            'message' => $message,
+            'from_location' => $from_location,
+            'to_location' => $to_location,
+        ];
+        
+        // Calculate refund amount
+        $_SESSION['refund_amount'] = $original_reward - $new_reward;
+        
+        // Redirect to refund processing page
+        header("Location: refund_process.php?id=$post_id");
+        exit();
+    } else {
+        // No change in amount, just update the post
+        $updated = $db->updateUserWorkPost($post_id, $email, $work, $city, $deadline, $reward, $message, $from_location, $to_location);
+        $isUpdating = true;
+    }
 } 
 // HANDLE GET REQUEST (INITIAL FORM LOAD)
 else {

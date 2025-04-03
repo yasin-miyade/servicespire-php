@@ -1,10 +1,12 @@
 <?php
 // Enable error reporting for debugging
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0); // Disable direct error output
 
 // Start session if not already started
-// session_start(); 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once("../lib/function.php");
 $db = new db_functions();
@@ -155,52 +157,112 @@ if (isset($_GET['refresh_stats']) && $_GET['refresh_stats'] == 'true') {
 
 // Handle help post request
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['help_post_id'])) {
-    $post_id = $_POST['help_post_id'];
-    // Assign helper and set status to pending
-    $db->assignHelper($post_id, $helper_email);
-    $post_owner = $db->getUserByPostId($post_id);
-    // Send notification
-    $db->sendNotification($post_id, "A helper has shown interest in your work post.");
+    header('Content-Type: application/json');
     
-    // For AJAX requests
-    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-        // Get updated stats to return to client - pass helper email
+    try {
+        if (empty($_SESSION['helper_email'])) {
+            throw new Exception('Session expired. Please login again.');
+        }
+
+        $post_id = intval($_POST['help_post_id']);
+        if ($post_id <= 0) {
+            throw new Exception('Invalid post ID');
+        }
+        
+        // Log the request attempt
+        error_log("Help request attempt - Post ID: $post_id, Helper: $helper_email");
+        
+        // Check if post exists and is still open
+        $post = $db->getWorkPostById($post_id);
+        if (!$post) {
+            throw new Exception('Post not found');
+        }
+        
+        if ($post['status'] !== 'open' && !empty($post['status'])) {
+            throw new Exception('This post is no longer available');
+        }
+
+        // Check if post is already assigned
+        $isAssigned = $db->isHelperAssigned($post_id, $helper_email);
+        if ($isAssigned) {
+            throw new Exception('You have already requested this post');
+        }
+
+        // Attempt to assign helper
+        $success = $db->assignHelper($post_id, $helper_email);
+        if (!$success) {
+            error_log("Failed to assign helper - Post ID: $post_id, Helper: $helper_email");
+            throw new Exception('Failed to send request');
+        }
+
+        // Update post status to pending_approval
+        $updateQuery = "UPDATE work_posts SET status = 'pending_approval' WHERE id = ?";
+        $stmt = $db->con->prepare($updateQuery);
+        $stmt->bind_param("i", $post_id);
+        $stmt->execute();
+
+        // Send notification to post owner
+        $notificationSuccess = $db->sendNotification($post_id, "A helper has shown interest in your work post. Please review and accept/reject the request.");
+        if (!$notificationSuccess) {
+            error_log("Failed to send notification - Post ID: $post_id");
+        }
+        
+        // Get updated pending requests count
         $pending_requests = $db->getPendingRequests($helper_email);
+        
         echo json_encode([
             'success' => true,
+            'message' => 'Request sent successfully. Waiting for user approval.',
             'pending_requests' => $pending_requests
         ]);
-        exit;
-    }
         
-    // For normal form submission, redirect to prevent form resubmission
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
+    } catch (Exception $e) {
+        error_log("Help request error: " . $e->getMessage());
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+    exit;
 }
 
 // Handle cancel help request
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_help_post_id'])) {
-    $post_id = $_POST['cancel_help_post_id'];
-    // Remove helper assignment (using both functions)
-    $db->removePendingRequests($post_id); // Set status to cancelled
-    $db->unassignHelper($post_id);         // Remove helper email assignment
-    // Send notification about cancellation
-    $db->sendNotification($post_id, "A helper has withdrawn their interest in your work post.");
-    
-    // For AJAX requests
-    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-        // Get updated stats to return to client - pass helper email
+    header('Content-Type: application/json');
+    try {
+        $post_id = $_POST['cancel_help_post_id'];
+        
+        // Check if post exists and helper is assigned
+        if (!$db->isHelperAssigned($post_id, $helper_email)) {
+            throw new Exception('No active request found for this post');
+        }
+        
+        // Remove helper assignment (using both functions)
+        $success1 = $db->removePendingRequests($post_id); // Set status to cancelled
+        $success2 = $db->unassignHelper($post_id);        // Remove helper email assignment
+        
+        if (!$success1 || !$success2) {
+            throw new Exception('Failed to cancel the request');
+        }
+        
+        // Send notification about cancellation
+        $db->sendNotification($post_id, "A helper has withdrawn their interest in your work post.");
+        
+        // Get updated stats
         $pending_requests = $db->getPendingRequests($helper_email);
+        
         echo json_encode([
             'success' => true,
+            'message' => 'Request cancelled successfully',
             'pending_requests' => $pending_requests
         ]);
-        exit;
+    } catch (Exception $e) {
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
     }
-        
-    // For normal form submission, redirect to prevent form resubmission
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
+    exit;
 }
 
 // Handle complete task request
@@ -447,36 +509,24 @@ $show_debug = isset($_GET['debug']) && $_GET['debug'] == '1';
                                 <?php endif; ?>
                             </div>
                             
-                            <!-- Post Footer with updated UI for open posts -->
+                            <!-- Post Footer with Help Button -->
                             <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                                 <span class="text-gray-700 text-sm flex items-center gap-2">
-                                    <i class="ph ph-clock text-indigo-600"></i> Posted on: <?php echo date("d M Y", strtotime($post['created_at'] ?? 'now')); ?>
+                                    <i class="ph ph-calendar text-indigo-500"></i>
+                                    Posted: <?php echo date('M j, Y', strtotime($post['created_at'])); ?>
                                 </span>
                                 <div class="help-button-container">
-                                    <?php if (!$isHelperAssigned) : ?>
-                                        <?php if ($isAvailable) : ?>
-                                            <?php if ($isOpen) : ?>
-                                            <button onclick="sendHelpRequest(this, <?php echo $post['id']; ?>)"
-                                                class="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center gap-2 shadow-md">
-                                                <i class="ph ph-handshake"></i> Help With This Task
-                                            </button>
-                                            <?php else : ?>
-                                            <button onclick="sendHelpRequest(this, <?php echo $post['id']; ?>)"
-                                                class="bg-indigo-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-all flex items-center gap-2">
-                                                <i class="ph ph-handshake"></i> Help Them
-                                            </button>
-                                            <?php endif; ?>
-                                        <?php else : ?>
-                                        <button disabled
-                                            class="bg-gray-400 cursor-not-allowed text-white font-semibold py-2 px-5 rounded-lg flex items-center gap-2">
-                                            <i class="ph ph-clock"></i> Not Available Yet
+                                    <?php if ($isHelperAssigned): ?>
+                                        <button onclick="cancelHelpRequest(this, <?php echo $post['id']; ?>)" 
+                                                class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg flex items-center gap-2">
+                                            <i class="ph ph-x-circle"></i> Cancel Request
                                         </button>
-                                        <?php endif; ?>
-                                    <?php else : ?>
-                                    <button onclick="cancelHelpRequest(this, <?php echo $post['id']; ?>)"
-                                        class="bg-red-500 text-white font-semibold py-2 px-5 rounded-lg hover:bg-red-600 transition-all flex items-center gap-2">
-                                        <i class="ph ph-x"></i> Cancel Request
-                                    </button>
+                                    <?php else: ?>
+                                        <button onclick="toggleHelpButton(this, <?php echo $post['id']; ?>)" 
+                                                class="help-btn px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center gap-2 transition-colors"
+                                                data-state="help">
+                                            <i class="ph ph-handshake"></i> Help Them
+                                        </button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -487,6 +537,27 @@ $show_debug = isset($_GET['debug']) && $_GET['debug'] == '1';
         <?php endif; ?>
     </div>
 
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancelModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 transform transition-transform">
+            <div class="text-center">
+                <div class="mb-4 text-red-600">
+                    <i class="ph ph-warning text-5xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Cancel Help Request</h3>
+                <p class="text-gray-600 mb-6">Are you sure you want to cancel this help request? This action cannot be undone.</p>
+                <div class="flex justify-center gap-4">
+                    <button id="confirmCancel" class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg">
+                        Yes, Cancel
+                    </button>
+                    <button onclick="closeModal()" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg">
+                        No, Keep It
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     // Debug mode to log all steps
     const DEBUG = true;
@@ -495,170 +566,170 @@ $show_debug = isset($_GET['debug']) && $_GET['debug'] == '1';
         if (DEBUG) console.log(...args);
     }
 
-    // Function to send help request
-    function sendHelpRequest(button, postId) {
-        log('Sending help request for post ID:', postId);
+    function toggleHelpButton(button, postId) {
+        const currentState = button.getAttribute('data-state');
+        
+        if (currentState === 'help') {
+            // Change to cancel state
+            button.setAttribute('data-state', 'cancel');
+            button.innerHTML = '<i class="ph ph-x-circle"></i> Cancel';
+            button.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            button.classList.add('bg-red-500', 'hover:bg-red-600');
+            
+            // Call help request function
+            sendHelpRequest(postId);
+        } else {
+            // Change back to help state
+            button.setAttribute('data-state', 'help');
+            button.innerHTML = '<i class="ph ph-handshake"></i> Help Them';
+            button.classList.remove('bg-red-500', 'hover:bg-red-600');
+            button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            
+            // Call cancel request function
+            cancelHelpRequest(button, postId);
+        }
+    }
 
-        // Prepare form data
+    function sendHelpRequest(postId) {
         const formData = new FormData();
         formData.append('help_post_id', postId);
 
-        // Show sending indicator on button
-        const originalButtonText = button.innerHTML;
-        button.disabled = true;
-        button.innerHTML = '<i class="ph ph-circle-notch ph-spin"></i> Sending...';
-
-        // Send direct POST request instead of AJAX
-        fetch('help_them_notification.php', {
+        fetch(window.location.href, {
             method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             body: formData
         })
         .then(response => {
-            log('Response status:', response.status);
-            return response.text().then(text => {
-                log('Raw response:', text);
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    log('Error parsing JSON:', e);
-                    throw new Error('Invalid JSON response: ' + text);
-                }
-            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         })
         .then(data => {
-            log('Parsed response data:', data);
-            // Re-enable button
-            button.disabled = false;
-            if (data && data.status === 'success') {
-                // Get the post element
-                const postElement = document.getElementById(`post-${postId}`);
-                
-                // Update UI to show request sent
-                button.innerHTML = '<i class="ph ph-clock"></i> Request Sent';
-                button.classList.remove('bg-green-600', 'bg-indigo-600', 'hover:bg-green-700', 'hover:bg-indigo-700');
-                button.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
-                button.setAttribute('onclick', `cancelHelpRequest(this, ${postId}, ${data.notification_id || 0})`);
-
-                // Add status indicator to the post
-                if (postElement) {
-                    // Find or create the status badges container
-                    let badgesContainer = postElement.querySelector('.absolute.top-4.right-4');
-                    if (!badgesContainer) {
-                        badgesContainer = document.createElement('div');
-                        badgesContainer.className = 'absolute top-4 right-4 flex flex-col gap-2 z-10';
-                        postElement.querySelector('.p-8').appendChild(badgesContainer);
-                    }
-                    
-                    // Add the "Request Sent" badge
-                    const requestBadge = document.createElement('div');
-                    requestBadge.className = 'px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full flex items-center gap-1 shadow-sm';
-                    requestBadge.innerHTML = '<i class="ph ph-hourglass"></i> Request Sent';
-                    badgesContainer.appendChild(requestBadge);
-                }
-                
-                // Update the pending requests count if available
-                if (data.pending_requests !== undefined) {
-                    document.getElementById('pending-requests').textContent = data.pending_requests;
+            log('Help request response:', data); // Debug log
+            
+            if (data.success) {
+                // Add the "Request Sent" badge
+                const post = document.getElementById(`post-${postId}`);
+                const badgesContainer = post?.querySelector('.absolute.top-4.right-4');
+                if (badgesContainer) {
+                    const badge = document.createElement('div');
+                    badge.className = 'px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full flex items-center gap-1 shadow-sm';
+                    badge.innerHTML = '<i class="ph ph-hourglass"></i> Request Sent';
+                    badgesContainer.appendChild(badge);
                 }
 
-                // Show toast notification
-                showToast(data.message || "Request sent to user");
+                // Update pending requests count
+                const pendingRequestsElement = document.getElementById('pending-requests');
+                if (pendingRequestsElement && data.pending_requests !== undefined) {
+                    pendingRequestsElement.textContent = data.pending_requests;
+                }
+
+                showToast('Request sent successfully! Waiting for user approval.');
+                
+                // Update button state
+                updateButtonState(postId, true);
             } else {
-                // Show error and restore original button
-                button.innerHTML = originalButtonText;
-                showToast(data.message || "Failed to send request. Please try again.");
+                showToast(data.message || 'Failed to send request');
+                // Revert button state if failed
+                updateButtonState(postId, false);
             }
         })
         .catch(error => {
-            log('Error:', error);
-            button.disabled = false;
-            button.innerHTML = originalButtonText;
-            showToast("Failed to send request. Please try again. Error: " + error.message);
+            console.error('Error:', error);
+            showToast('Error occurred while sending request');
+            // Revert button state on error
+            updateButtonState(postId, false);
         });
     }
 
-    function cancelHelpRequest(button, postId, notificationId) {
-        log('Cancelling help request for post ID:', postId);
+    function cancelHelpRequest(button, postId) {
+        // Show modal and setup confirmation
+        const modal = document.getElementById('cancelModal');
+        const confirmBtn = document.getElementById('confirmCancel');
+        
+        // Show modal with fade in
+        modal.style.display = 'flex';
+        setTimeout(() => modal.classList.add('opacity-100'), 10);
+        
+        // Setup confirm button
+        const handleConfirm = () => {
+            closeModal();
+            processCancelRequest(button, postId);
+            // Remove event listener after use
+            confirmBtn.removeEventListener('click', handleConfirm);
+        };
+        
+        confirmBtn.addEventListener('click', handleConfirm);
+    }
 
-        // Prepare form data
-        const formData = new FormData();
-        formData.append('post_id', postId);
+    function closeModal() {
+        const modal = document.getElementById('cancelModal');
+        modal.classList.remove('opacity-100');
+        setTimeout(() => modal.style.display = 'none', 300);
+    }
 
-        // Show canceling indicator on button
-        const originalButtonText = button.innerHTML;
+    function processCancelRequest(button, postId) {
+        // Show loading state
         button.disabled = true;
-        button.innerHTML = '<i class="ph ph-circle-notch ph-spin"></i> Canceling...';
+        button.innerHTML = '<i class="ph ph-spinner-gap ph-spin"></i> Cancelling...';
 
-        // Use the dedicated cancel endpoint instead
-        fetch('cancel_help_request.php', {
+        const formData = new FormData();
+        formData.append('cancel_help_post_id', postId);
+
+        fetch(window.location.href, {
             method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             body: formData
         })
-        .then(response => {
-            log('Response status:', response.status);
-            return response.text().then(text => {
-                log('Raw response:', text);
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    log('Error parsing JSON:', e);
-                    throw new Error('Server response is not valid JSON');
-                }
-            });
-        })
+        .then(response => response.json())
         .then(data => {
-            log('Parsed response data:', data);
-            // Re-enable button
-            button.disabled = false;
-            if (data && data.success) {
-                // Get the post element
-                const postElement = document.getElementById(`post-${postId}`);
-                const isOpen = postElement?.dataset.open === 'true';
-                const isAvailable = postElement?.dataset.available === 'true';
+            if (data.success) {
+                // Update the button back to "Help Them"
+                button.innerHTML = '<i class="ph ph-handshake"></i> Help Them';
+                button.classList.remove('bg-red-500', 'hover:bg-red-600');
+                button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                button.setAttribute('onclick', `toggleHelpButton(this, ${postId})`);
+
+                // Update stats and UI
+                updateUIAfterCancel(postId, data);
                 
-                // Update UI back to help button with proper styling based on post status
-                if (isOpen && isAvailable) {
-                    button.innerHTML = '<i class="ph ph-handshake"></i> Help With This Task';
-                    button.classList.remove('bg-red-500', 'hover:bg-red-600');
-                    button.classList.add('bg-green-600', 'hover:bg-green-700');
-                } else {
-                    button.innerHTML = '<i class="ph ph-handshake"></i> Help Them';
-                    button.classList.remove('bg-red-500', 'hover:bg-red-600');
-                    button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-                }
-                button.setAttribute('onclick', `sendHelpRequest(this, ${postId})`);
-
-                // Remove request sent badge
-                if (postElement) {
-                    const badgesContainer = postElement.querySelector('.absolute.top-4.right-4');
-                    if (badgesContainer) {
-                        const requestBadge = Array.from(badgesContainer.children).find(badge => 
-                            badge.textContent.includes('Request Sent'));
-                        if (requestBadge) {
-                            requestBadge.remove();
-                        }
-                    }
-                }
-
-                // Update the pending requests count
-                if (data.pending_requests !== undefined) {
-                    document.getElementById('pending-requests').textContent = data.pending_requests;
-                }
-
-                // Show toast notification
-                showToast(data.message || "Help request cancelled successfully");
+                // Show success message
+                showToast(data.message || 'Request cancelled successfully');
+                
+                // Refresh page after delay
+                setTimeout(() => location.reload(), 1500);
             } else {
-                // Show error and restore original button
-                button.innerHTML = originalButtonText;
-                showToast(data.message || "Failed to cancel request. Please try again.");
+                button.disabled = false;
+                button.innerHTML = '<i class="ph ph-x-circle"></i> Cancel Request';
+                showToast(data.message || 'Failed to cancel request');
             }
         })
         .catch(error => {
-            log('Error:', error);
+            console.error('Error:', error);
             button.disabled = false;
-            button.innerHTML = originalButtonText;
-            showToast("Error: " + error.message);
+            button.innerHTML = '<i class="ph ph-x-circle"></i> Cancel Request';
+            showToast('Error occurred while cancelling request');
         });
+    }
+
+    function updateUIAfterCancel(postId, data) {
+        // Update pending requests count
+        const pendingRequestsElement = document.getElementById('pending-requests');
+        if (pendingRequestsElement && data.pending_requests !== undefined) {
+            pendingRequestsElement.textContent = data.pending_requests;
+        }
+
+        // Remove "Request Sent" badge
+        const post = document.getElementById(`post-${postId}`);
+        const badge = post?.querySelector('.bg-yellow-100');
+        if (badge) {
+            badge.remove();
+        }
     }
 
     function showToast(message) {
@@ -736,6 +807,25 @@ $show_debug = isset($_GET['debug']) && $_GET['debug'] == '1';
                 location.reload(); // Reload page if posts were found
             }
         });
+    }
+
+    // Add this helper function
+    function updateButtonState(postId, isRequested) {
+        const post = document.getElementById(`post-${postId}`);
+        const button = post?.querySelector('button');
+        if (button) {
+            if (isRequested) {
+                button.innerHTML = '<i class="ph ph-x-circle"></i> Cancel Request';
+                button.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                button.classList.add('bg-red-500', 'hover:bg-red-600');
+                button.setAttribute('onclick', `cancelHelpRequest(this, ${postId})`);
+            } else {
+                button.innerHTML = '<i class="ph ph-handshake"></i> Help Them';
+                button.classList.remove('bg-red-500', 'hover:bg-red-600');
+                button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                button.setAttribute('onclick', `toggleHelpButton(this, ${postId})`);
+            }
+        }
     }
     </script>
 </body>

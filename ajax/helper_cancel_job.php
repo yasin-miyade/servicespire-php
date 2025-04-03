@@ -108,6 +108,32 @@ try {
         
         notification_complete:
         
+        // Add 7 day penalty to helper - with error handling
+        try {
+            $penalty_until = date('Y-m-d', strtotime('+7 days'));
+            
+            // First check if helper_profiles table exists
+            $table_exists = $conn->query("SHOW TABLES LIKE 'helper_profiles'");
+            if ($table_exists->num_rows == 0) {
+                // Redirect to create table
+                error_log("helper_profiles table doesn't exist - attempting to create");
+                include_once("../migrations/add_helper_profiles.php");
+            }
+            
+            // Try to insert/update the helper profile
+            $penalty_sql = "INSERT INTO helper_profiles (email, penalty_until, last_penalty_reason) 
+                           VALUES (?, ?, 'Cancelled job without completion')
+                           ON DUPLICATE KEY UPDATE 
+                           penalty_until = ?, 
+                           last_penalty_reason = 'Cancelled job without completion'";
+            $penalty_stmt = $conn->prepare($penalty_sql);
+            $penalty_stmt->bind_param("sss", $_SESSION['helper_email'], $penalty_until, $penalty_until);
+            $penalty_stmt->execute();
+        } catch (Exception $e) {
+            error_log("Failed to add penalty, but job was cancelled: " . $e->getMessage());
+            // Continue with success response since the job was cancelled
+        }
+
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'success',

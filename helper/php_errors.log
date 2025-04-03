@@ -1,0 +1,4 @@
+[02-Apr-2025 18:21:43 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Cannot access private property db_functions::$con in D:\new xampp\htdocs\servicespire\helper\help_them_notification.php:18
+Stack trace:
+#0 {main}
+  thrown in D:\new xampp\htdocs\servicespire\helper\help_them_notification.php on line 18
